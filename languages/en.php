@@ -1,0 +1,34 @@
+<?php
+/**
+ * TGS Embed Image english language translation
+ *
+ * @package TGSEmbedImage
+ * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
+ * @author Jeff Tilson
+ * @copyright THINK Global School 2010
+ * @link http://www.thinkglobalschool.com/
+ * 
+ */
+
+$english = array(
+	// Generic
+	'embedimage' => 'Embed Image',
+
+	// Page titles 
+
+	// Labels
+
+	// River
+
+	// Messages
+	'embedimage:error:requiredfields' => 'One or more required fields are missing',
+	'embedimage:error:notfound' => 'Item not found',
+	'embedimage:error:delete' => 'There was an error deleting the embed image',
+	'embedimage:error:save' => 'There was an error saving the embed image',
+	'embedimage:success:save' => 'Successfully saved embed image',
+	'embedimage:success:delete' => 'Successfully deleted the embed image',
+
+	// Other content
+);
+
+add_translation('en',$english);
