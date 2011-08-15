@@ -38,3 +38,22 @@ function embedimage_get_page_content_list() {
 
 	return $return;
 }
+
+function embedimage_get_page_content_view($guid) {
+	$embedimage = new ElggFile($guid);
+
+	$owner = get_entity($embedimage->owner_guid);
+
+	elgg_push_breadcrumb(elgg_echo('embedimage:title:embedimages'), 'embedimage/all');
+
+	$title = $embedimage->title;
+
+	elgg_push_breadcrumb($title);
+
+	$content = elgg_view_entity($embedimage, array('full_view' => true));
+
+	$return['filter'] = FALSE;
+	$return['title'] = $title;
+	$return['content'] = $content;
+	return $return;
+}
