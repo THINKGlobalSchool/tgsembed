@@ -10,3 +10,7 @@
  * 
  */
 ?>
+
+.embedimage-module {
+	width: 730px;
+}
