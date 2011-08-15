@@ -40,6 +40,12 @@ function embedimage_init() {
 	// Hook into longtext menu
 	elgg_register_plugin_hook_handler('register', 'menu:longtext', 'embedimage_longtext_menu');
 
+	// Icon override
+	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'embedimage_icon_url_override');
+
+	// Item entity menu hook
+	elgg_register_plugin_hook_handler('register', 'menu:entity', 'embedimage_setup_entity_menu', 999);
+
 	// Register actions
 	$action_base = elgg_get_plugins_path() . 'embedimage/actions/embedimage';
 	elgg_register_action('embedimage/upload', "$action_base/upload.php");
@@ -64,9 +70,11 @@ function embedimage_page_handler($page) {
 		}
 	} else {
 		switch($page[0]) {
+			case 'view':
+			 	$params = embedimage_get_page_content_view($page[1]);
+				break;
 			case 'all':
 			default:
-				$title = elgg_echo('blog:title:all_blogs');
 				$params = embedimage_get_page_content_list();
 				break;
 		}
@@ -86,7 +94,9 @@ function embedimage_page_handler($page) {
  * @return string request url
  */
 function embedimage_url($entity) {
-	return "not implemented";
+	$title = $entity->title;
+	$title = elgg_get_friendly_title($title);
+	return "embedimage/view/" . $entity->getGUID() . "/" . $title;
 }
 
 /**
@@ -118,4 +128,44 @@ function embedimage_longtext_menu($hook, $type, $items, $vars) {
 
 	return $items;
 }
+
+/**
+ * Override the default entity icon for files
+ *
+ * Plugins can override or extend the icons using the plugin hook: 'file:icon:url', 'override'
+ *
+ * @return string Relative URL
+ */
+function embedimage_icon_url_override($hook, $type, $returnvalue, $params) {
+	$file = $params['entity'];
+	$size = $params['size'];
+	if (elgg_instanceof($file, 'object', 'embedimage')) {
+		// thumbnails get first priority
+		if ($file->thumbnail) {
+			return "mod/embedimage/thumbnail.php?file_guid=$file->guid&size=$size";
+		}
+	}
+}
+
+/**
+ * Item entity plugin hook
+ */
+function embedimage_setup_entity_menu($hook, $type, $return, $params) {
+	$entity = $params['entity'];
+
+	if (!elgg_instanceof($entity, 'object', 'embedimage')) {
+		return $return;
+	}
+
+	// Nuke the edit and likes items
+	foreach($return as $idx => $item) {
+		if ($item->getName() == 'likes' || $item->getName() == 'edit') {
+			unset($return[$idx]);
+		}
+	}
+
+	return $return;
+}
+
+
 
