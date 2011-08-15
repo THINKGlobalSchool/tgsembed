@@ -15,8 +15,10 @@ $english = array(
 	'embedimage' => 'Embed Image',
 
 	// Page titles 
+	'embedimage:title:embedimages' => 'Embed Images',
 
 	// Labels
+	'embedimage:label:none' => 'No images',
 
 	// River
 
@@ -25,6 +27,8 @@ $english = array(
 	'embedimage:error:notfound' => 'Item not found',
 	'embedimage:error:delete' => 'There was an error deleting the embed image',
 	'embedimage:error:save' => 'There was an error saving the embed image',
+	'embedimage:error:nofile' => 'You must select a file',
+	'embedimage:error:invalidfile' => 'File must be an image',
 	'embedimage:success:save' => 'Successfully saved embed image',
 	'embedimage:success:delete' => 'Successfully deleted the embed image',
 
