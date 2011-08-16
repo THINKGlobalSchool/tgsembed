@@ -14,3 +14,18 @@
 .embedimage-module {
 	width: 730px;
 }
+
+.embedimage-gallery-item {
+	text-align: center;
+	width: 165px;
+	background-color:#EEEEEE;
+	padding: 5px;
+	margin: 2px;
+	-webkit-border-radius: 6px; 
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.embedimage-gallery-item:hover {
+	background-color: #CCCCCC;
+}

@@ -18,10 +18,6 @@ function embedimage_init() {
 	elgg_register_library('embedimage', elgg_get_plugins_path() . 'embedimage/lib/embedimage.php');
 	elgg_load_library('embedimage');
 
-	// add a site navigation item
-	$item = new ElggMenuItem('embedimage', elgg_echo('embedimage:title:embedimages'), 'embedimage/all');
-	elgg_register_menu_item('site', $item);
-
 	// Register CSS
 	$e_css = elgg_get_simplecache_url('css', 'embedimage/css');
 	elgg_register_css('elgg.embedimage', $e_css);
@@ -45,6 +41,9 @@ function embedimage_init() {
 
 	// Item entity menu hook
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'embedimage_setup_entity_menu', 999);
+	
+	// Register for pagesetup event
+	elgg_register_event_handler('pagesetup', 'system', 'embedimage_pagesetup');
 
 	// Register actions
 	$action_base = elgg_get_plugins_path() . 'embedimage/actions/embedimage';
@@ -130,6 +129,24 @@ function embedimage_longtext_menu($hook, $type, $items, $vars) {
 }
 
 /**
+ * Set up the menu for user settings
+ *
+ * @return void
+ */
+function embedimage_pagesetup() {
+	if (elgg_get_context() == "settings" && elgg_get_logged_in_user_guid()) {
+		$user = elgg_get_logged_in_user_entity();
+
+		$params = array(
+			'name' => 'embed_images',
+			'text' => elgg_echo('embedimage:title:embedimages'),
+			'href' => "embedimage/all",
+		);
+		elgg_register_menu_item('page', $params);
+	}
+}
+
+/**
  * Override the default entity icon for files
  *
  * Plugins can override or extend the icons using the plugin hook: 'file:icon:url', 'override'
@@ -164,7 +181,8 @@ function embedimage_setup_entity_menu($hook, $type, $return, $params) {
 		}
 	}
 
-	return $return;
+	return array();
+	//return $return;
 }
 
 

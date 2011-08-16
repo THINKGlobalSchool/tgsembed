@@ -23,6 +23,7 @@ function embedimage_get_page_content_list() {
 		'owner_guid' => elgg_get_logged_in_user_guid(),
 		'type' => 'object',
 		'subtype' => 'embedimage',
+		'list_type' => 'gallery',
 		'full_view' => FALSE,
 	);
 
