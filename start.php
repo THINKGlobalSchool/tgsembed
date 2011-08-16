@@ -168,21 +168,8 @@ function embedimage_icon_url_override($hook, $type, $returnvalue, $params) {
  * Item entity plugin hook
  */
 function embedimage_setup_entity_menu($hook, $type, $return, $params) {
-	$entity = $params['entity'];
-
-	if (!elgg_instanceof($entity, 'object', 'embedimage')) {
-		return $return;
-	}
-
-	// Nuke the edit and likes items
-	foreach($return as $idx => $item) {
-		if ($item->getName() == 'likes' || $item->getName() == 'edit') {
-			unset($return[$idx]);
-		}
-	}
-
+	// Nuke all items
 	return array();
-	//return $return;
 }
 
 
