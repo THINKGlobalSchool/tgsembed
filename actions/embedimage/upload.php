@@ -27,7 +27,7 @@ elgg_make_sticky_form('embedimage-form');
 if (empty($_FILES['upload']['name'])) {
 	$error = elgg_echo('embedimage:error:nofile');
 	echo json_encode(array('status' => -1, 'system_messages' => array('error' => $error)));
-	return;
+	return true;
 }
 
 // Grab type to make sure we have an image
@@ -37,7 +37,7 @@ $simpletype = file_get_simple_type($_FILES['upload']['type']);
 if ($simpletype != 'image') {
 	$error = elgg_echo('embedimage:error:invalidfile');
 	echo json_encode(array('status' => -1, 'system_messages' => array('error' => $error)));
-	return;
+	return true;
 }
 
 // Hope this works..
@@ -116,11 +116,17 @@ elgg_clear_sticky_form('embedimage-form');
 
 if ($guid) {
 	$message = elgg_echo("embedimage:success:save");
-	echo json_encode(array('status' => 0, 'system_messages' => array('success' => $message)));
-	return;
+	echo json_encode(array(
+		'status' => 0, 
+		'system_messages' => array('success' => $message),
+		'title' => $embedimage->title,
+		'entity_url' => $embedimage->getURL(),
+		'icon_url' => $embedimage->getIconURL('large'),
+	));
 } else {
 	// failed to save file object - nothing we can do about this
 	$error = elgg_echo("embedimage:error:save");
 	echo json_encode(array('status' => -1, 'system_messages' => array('error' => $error)));
-	return;
 }
+
+return true;

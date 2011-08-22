@@ -25,6 +25,7 @@ function embedimage_get_page_content_list() {
 		'subtype' => 'embedimage',
 		'list_type' => 'gallery',
 		'full_view' => FALSE,
+		'limit' => 12,
 	);
 
 	$return['filter'] = FALSE;

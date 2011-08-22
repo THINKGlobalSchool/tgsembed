@@ -29,3 +29,7 @@
 .embedimage-gallery-item:hover {
 	background-color: #CCCCCC;
 }
+
+.embedimage-gallery-item h3 {
+	margin-bottom: 5px;
+}
