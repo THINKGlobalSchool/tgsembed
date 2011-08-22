@@ -15,9 +15,36 @@ elgg.provide('elgg.embedimage');
 
 // Init function
 elgg.embedimage.init = function() {	
-	console.log('Embed Image JS Loaded');
+
+	// caches the current textarea id
+	$(".embedimage-control").live('click', function() {
+		var classes = $(this).attr('class');
+		var embedClass = classes.split(/[, ]+/).pop();
+		var textAreaId = embedClass.substr(embedClass.indexOf('embedimage-control-') + "embedimage-control-".length);
+		elgg.embedimage.textAreaId = textAreaId;
+	});
 
 	$('#embedimage-form').live('submit', elgg.embedimage.submit);
+}
+
+/**
+ * Inserts data attached to an embed list item in textarea
+ *
+ * @param string title
+ * @param string entity_url
+ * @param string icon_url
+ * @return void
+ */
+elgg.embedimage.insert = function(title, entity_url, icon_url) {
+	var textAreaId = elgg.embedimage.textAreaId;
+
+	var content = "<a href='" + entity_url + "' title='" + title + "'><img src='" + icon_url + "' /></a>";
+
+	$('#' + textAreaId).val($('#' + textAreaId).val() + ' ' + content + ' ');
+
+	<?php echo elgg_view('embed/custom_insert_js'); ?>
+
+	$.fancybox.close();
 }
 
 /**
@@ -41,7 +68,8 @@ elgg.embedimage.submit = function(event) {
 					elgg.system_message(json_response.system_messages.success);
 				}
 				if (json_response.status >= 0) {
-					console.log('done');
+					// Insert the image
+					elgg.embedimage.insert(json_response.title, json_response.entity_url, json_response.icon_url);
 				}
 			}
 		}
@@ -49,7 +77,7 @@ elgg.embedimage.submit = function(event) {
 
 	event.preventDefault();
 	event.stopPropagation();
-	return;
+	return false;
 }
 
 elgg.register_hook_handler('init', 'system', elgg.embedimage.init);
