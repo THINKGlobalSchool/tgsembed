@@ -31,6 +31,10 @@ elgg.embedimage.init = function() {
 		elgg.embedimage.textAreaId = textAreaId;
 	});
 
+	// Make embedimage popup tabs clickable
+	$('.embedimage-menu-item').live('click', elgg.embedimage.menuclick);
+
+	// Form submit handler
 	$('#embedimage-form').live('submit', elgg.embedimage.submit);
 }
 
@@ -59,12 +63,11 @@ elgg.embedimage.initDragDropInput = function() {
 			}
 			if (data.result.output.status >= 0) {
 				// Insert the image
-				elgg.embedimage.insert(data.result.output.title, data.result.output.entity_url, data.result.output.icon_url);
+				elgg.embedimage.insertImage(data.result.output.title, data.result.output.entity_url, data.result.output.icon_url);
 			}
         }
     });
 }
-
 
 /**
  * Inserts data attached to an embed list item in textarea
@@ -74,16 +77,26 @@ elgg.embedimage.initDragDropInput = function() {
  * @param string icon_url
  * @return void
  */
-elgg.embedimage.insert = function(title, entity_url, icon_url) {
+elgg.embedimage.insert = function(content) {
 	var textAreaId = elgg.embedimage.textAreaId;
-
-	var content = "<a href='" + entity_url + "' title='" + title + "'><img src='" + icon_url + "' /></a>";
 
 	$('#' + textAreaId).val($('#' + textAreaId).val() + ' ' + content + ' ');
 
 	<?php echo elgg_view('embed/custom_insert_js'); ?>
 
 	$.fancybox.close();
+}
+
+/**
+ * Wrapper function to build image content to insert
+ *
+ * @param string title
+ * @param string entity_url
+ * @param string icon_url
+ */
+elgg.embedimage.insertImage = function(title, entity_url, icon_url) {
+	var content = "<a href='" + entity_url + "' title='" + title + "'><img src='" + icon_url + "' /></a>";
+	elgg.embedimage.insert(content);
 }
 
 /**
@@ -111,7 +124,7 @@ elgg.embedimage.submit = function(event) {
 				}
 				if (json_response.status >= 0) {
 					// Insert the image
-					elgg.embedimage.insert(json_response.title, json_response.entity_url, json_response.icon_url);
+					elgg.embedimage.insertImage(json_response.title, json_response.entity_url, json_response.icon_url);
 				} else {
 					// Close the box
 					$.fancybox.close();
@@ -123,6 +136,17 @@ elgg.embedimage.submit = function(event) {
 	event.preventDefault();
 	event.stopPropagation();
 	return false;
+}
+
+// Click handler for menu items
+elgg.embedimage.menuclick = function(event) {
+	$('.embedimage-menu-item').parent().removeClass('elgg-state-selected');
+	$('.embedimage-module').hide();
+
+	$(this).parent().addClass('elgg-state-selected');
+	$($(this).attr('href')).show();
+
+	event.preventDefault();
 }
 
 elgg.register_hook_handler('init', 'system', elgg.embedimage.init);

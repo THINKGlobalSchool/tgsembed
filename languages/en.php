@@ -21,6 +21,10 @@ $english = array(
 	'embedimage:label:none' => 'No images',
 	'embedimage:label:dropzone_desc' => 'Drag & Drop',
 	'embedimage:label:upload_desc' => 'Browse & Upload',
+	'embedimage:label:image' => 'Image',
+	'embedimage:label:generic' => 'Embed Generic',
+	'embedimage:label:embedcontent' => 'Embed Content',
+	'embedimage:label:instructions' => 'Copy and paste the embed code into the box below',
 
 	// River
 
