@@ -61,7 +61,7 @@ $content = <<<HTML
 			<tr>
 				<td class='embedimage-dropzone-container'>
 					<h3>$dropzone_desc</h3>
-					<div class='embedimage-dropzone'>
+					<div class='embedimage-dropzone embedimage-dropzone-background'>
 					</div>
 				</td>
 				<td class='embedimage-or-container'>
@@ -79,7 +79,7 @@ $content = <<<HTML
 						<label>$title_label</label>
 						$title_input
 					</div>
-					<div class='elgg-foot'>
+					<div class='elgg-foot' id='embedimage-foot'>
 						$container_input
 						<br />
 						$submit_input
