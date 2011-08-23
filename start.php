@@ -57,6 +57,10 @@ function embedimage_init() {
 	elgg_register_action('embedimage/upload', "$action_base/upload.php");
 	elgg_register_action('embedimage/delete', "$action_base/delete.php");
 
+	/** GENERIC EMBED **/
+	// Hook to add new type
+	elgg_register_plugin_hook_handler('get_keywords', 'ecml', 'generic_embed_get_keywords');
+
 	return TRUE;
 }
 
@@ -122,7 +126,7 @@ function embedimage_longtext_menu($hook, $type, $items, $vars) {
 	$items[] = ElggMenuItem::factory(array(
 		'name' => 'embedimage',
 		'href' => "embedimage",
-		'text' => elgg_echo('embedimage'),
+		'text' => elgg_echo('embedimage:label:embedcontent'),
 		//'rel' => 'lightbox',
 		'link_class' => "elgg-longtext-control embedimage-control embedimage-control-{$vars['id']}",
 		'priority' => 10,
@@ -185,5 +189,26 @@ function embedimage_setup_entity_menu($hook, $type, $return, $params) {
 	return array();
 }
 
+/** GENERIC EMBED **/
+/**
+ * Plugin hook to add new 'generic' ECML keyword (won't work on its own..)
+ *
+ * @param $hook
+ * @param $type
+ * @param $value
+ * @param $params
+ * @return mixed $value
+ */
+function generic_embed_get_keywords($hook, $type, $value, $params) {
+	$value['generic'] = array(
+		'name' => 'Generic Embed',
+		'view' => "ecml/keywords/generic",
+		'description' => 'Embed Generic Content',
+		'usage' => 'Only usable from the embed interface',
+		'type' => 'generic',
+		'params' => array('embed'), // a list of supported params
+		'embed_format' => 'embed="%s"' // a sprintf string of the require param format. Added automatically to [keyword $here]
+	);
 
-
+	return $value;
+}

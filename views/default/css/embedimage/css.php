@@ -15,6 +15,14 @@
 	width: 730px;
 }
 
+#embedimage-module-image {
+
+}
+
+#embedimage-module-generic {
+	display: none;
+}
+
 .embedimage-gallery-item {
 	height: 225px;
     overflow: hidden;
