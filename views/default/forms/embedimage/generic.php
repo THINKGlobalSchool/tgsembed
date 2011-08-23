@@ -20,7 +20,7 @@ $generic_input = elgg_view('input/plaintext', array(
 
 $submit_input = elgg_view('input/submit', array(
 	'id' => 'embed-generic-submit',
-	'value' => elgg_echo('embed:embed'),
+	'value' => elgg_echo('submit'),
 	'class' => 'elgg-button-submit elgg-state-disabled',
 ));
 
