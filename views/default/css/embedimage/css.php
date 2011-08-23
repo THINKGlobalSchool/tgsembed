@@ -59,11 +59,24 @@
 }
 
 .embedimage-dropzone {
+	-webkit-border-radius: 26px;
+	-moz-border-radius: 26px;
+	border-radius: 26px;
 	margin-left: 15px;
 	margin-right: 15px;
+	margin-bottom: 10px;
 	width: 200px;
 	height: 150px;
+}
+
+.embedimage-dropzone-background {
 	background-image: url('<?php echo elgg_get_site_url() . 'mod/embedimage/_graphics/dropzone.png' ?>');
+}
+
+.embedimage-dropzone-drag {
+	-moz-box-shadow: 0px 0px 15px Green;
+	-webkit-box-shadow: 0px 0px 15px Green;
+	box-shadow: 0px 0px 15px Green;
 }
 
 .embedimage-form-table h3 {
