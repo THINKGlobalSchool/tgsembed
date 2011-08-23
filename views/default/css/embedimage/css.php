@@ -16,6 +16,9 @@
 }
 
 .embedimage-gallery-item {
+	height: 225px;
+    overflow: hidden;
+	float: left;
 	text-align: center;
 	width: 165px;
 	background-color:#EEEEEE;
@@ -25,6 +28,23 @@
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 }
+
+.embedimage-gallery-item-title  {
+	overflow: hidden;
+	display: block;
+	height:32px;
+	width: 154px;
+}
+.embedimage-gallery-item-title span {
+	font-weight:bold;
+	line-height: 1.2em;
+	height:32px;
+	width: 154px;
+	vertical-align: middle;
+	text-align: center;
+	display: table-cell;
+}
+
 
 .embedimage-gallery-item:hover {
 	background-color: #CCCCCC;
