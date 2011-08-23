@@ -10,12 +10,13 @@
  * @link http://www.thinkglobalschool.com/
  * 
  */
-// once elgg_view stops throwing all sorts of junk into $vars, we can use 
-$title = elgg_extract('title', $vars, '');
+
 $container_guid = elgg_extract('container_guid', $vars);
+
 if (!$container_guid) {
 	$container_guid = elgg_get_logged_in_user_guid();
 }
+
 $guid = elgg_extract('guid', $vars, null);
 
 if ($guid) {
@@ -26,25 +27,67 @@ if ($guid) {
 	$submit_label = elgg_echo('upload');
 }
 
-?>
-<div>
-	<label><?php echo $file_label; ?></label><br />
-	<?php echo elgg_view('input/file', array('name' => 'upload')); ?>
-</div>
-<div>
-	<label><?php echo elgg_echo('title'); ?></label><br />
-	<?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
-</div>
-<div class="elgg-foot">
-<?php
+$file_input = elgg_view('input/file', array(
+	'name' => 'upload'
+));
 
-echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $container_guid));
+$drop_input = elgg_view('input/file', array(
+	'name' => 'files',
+	'class' => 'drag-upload',
+));
 
-if ($guid) {
-	echo elgg_view('input/hidden', array('name' => 'file_guid', 'value' => $guid));
-}
+$title_label = elgg_echo('title');
 
-echo elgg_view('input/submit', array('value' => $submit_label));
+$title_input = elgg_view('input/text', array(
+	'name' => 'title', 
+	'value' => $title
+));
 
-?>
-</div>
+$container_input = elgg_view('input/hidden', array(
+	'name' => 'container_guid', 
+	'value' => $container_guid
+));
+
+$submit_input = elgg_view('input/submit', array(
+	'value' => $submit_label
+));
+
+$dropzone_desc = elgg_echo('embedimage:label:dropzone_desc');
+$upload_desc = elgg_echo('embedimage:label:upload_desc');
+
+$content = <<<HTML
+	<table class='embedimage-form-table'>
+		<tbody>
+			<tr>
+				<td class='embedimage-dropzone-container'>
+					<h3>$dropzone_desc</h3>
+					<div class='embedimage-dropzone'>
+					</div>
+				</td>
+				<td class='embedimage-or-container'>
+					OR
+				</td>
+				<td class='embedimage-form-container'>
+					<h3>$upload_desc</h3>
+					<div>
+						<label>$file_label</label>
+						$file_input
+						$drop_input
+					</div>
+					<br />
+					<div>
+						<label>$title_label</label>
+						$title_input
+					</div>
+					<div class='elgg-foot'>
+						$container_input
+						<br />
+						$submit_input
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+HTML;
+
+echo $content;
