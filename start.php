@@ -18,6 +18,9 @@ function embedimage_init() {
 	elgg_register_library('embedimage', elgg_get_plugins_path() . 'embedimage/lib/embedimage.php');
 	elgg_load_library('embedimage');
 
+	// Register simplecache view for jQuery File Upload
+	elgg_register_simplecache_view('js/jquery_file_upload');
+
 	// Register CSS
 	$e_css = elgg_get_simplecache_url('css', 'embedimage/css');
 	elgg_register_css('elgg.embedimage', $e_css);
@@ -26,6 +29,10 @@ function embedimage_init() {
 	// Register JS libraries
 	$e_js = elgg_get_simplecache_url('js', 'embedimage/embedimage');
 	elgg_register_js('elgg.embedimage', $e_js);
+
+	// Register JS for autosuggest
+	$j_js = elgg_get_simplecache_url('js', 'jquery_file_upload');
+	elgg_register_js('jQuery-File-Upload', $j_js);
 
 	// Register page handler
 	elgg_register_page_handler('embedimage','embedimage_page_handler');
@@ -116,12 +123,13 @@ function embedimage_longtext_menu($hook, $type, $items, $vars) {
 		'name' => 'embedimage',
 		'href' => "embedimage",
 		'text' => elgg_echo('embedimage'),
-		'rel' => 'lightbox',
-		'link_class' => "elgg-longtext-control elgg-lightbox embedimage-control embedimage-control-{$vars['id']}",
+		//'rel' => 'lightbox',
+		'link_class' => "elgg-longtext-control embedimage-control embedimage-control-{$vars['id']}",
 		'priority' => 10,
 	));
 
 	elgg_load_js('lightbox');
+	elgg_load_js('jQuery-File-Upload');
 	elgg_load_css('lightbox');
 	elgg_load_js('elgg.embedimage');
 

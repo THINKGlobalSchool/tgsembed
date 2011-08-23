@@ -19,6 +19,8 @@ $english = array(
 
 	// Labels
 	'embedimage:label:none' => 'No images',
+	'embedimage:label:dropzone_desc' => 'Drag & Drop',
+	'embedimage:label:upload_desc' => 'Browse & Upload',
 
 	// River
 

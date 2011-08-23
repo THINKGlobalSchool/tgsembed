@@ -16,6 +16,14 @@ elgg.provide('elgg.embedimage');
 // Init function
 elgg.embedimage.init = function() {	
 
+	// Create lightbox manually
+	$(".embedimage-control").fancybox({
+		//'modal': true,
+		'onComplete': function() {
+			elgg.embedimage.initDragDropInput();
+		}
+	});
+
 	// caches the current textarea id
 	$(".embedimage-control").live('click', function() {
 		var classes = $(this).attr('class');
@@ -26,6 +34,30 @@ elgg.embedimage.init = function() {
 
 	$('#embedimage-form').live('submit', elgg.embedimage.submit);
 }
+
+/**
+ * Initialize the drag and drop input
+ *
+ * @return void
+ */
+elgg.embedimage.initDragDropInput = function() {
+	$('.drag-upload').fileupload({
+        dataType: 'json',
+		dropZone: $('.embedimage-dropzone'),
+        url: elgg.get_site_url() + 'action/embedimage/upload?type=drop',
+        done: function (e, data) {
+			if (data.result.output.system_messages) {
+				elgg.register_error(data.result.output.system_messages.error);
+				elgg.system_message(data.result.output.system_messages.success);
+			}
+			if (data.result.output.status >= 0) {
+				// Insert the image
+				elgg.embedimage.insert(data.result.output.title, data.result.output.entity_url, data.result.output.icon_url);
+			}
+        }
+    });
+}
+
 
 /**
  * Inserts data attached to an embed list item in textarea

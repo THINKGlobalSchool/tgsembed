@@ -16,6 +16,7 @@ $title = get_input("title");
 $desc = get_input("description");
 $access_id = ACCESS_LOGGED_IN; // I think this is ok
 $container_guid = (int) get_input('container_guid', 0);
+$upload_type = get_input('type');
 
 if ($container_guid == 0) {
 	$container_guid = elgg_get_logged_in_user_guid();
@@ -23,15 +24,23 @@ if ($container_guid == 0) {
 
 elgg_make_sticky_form('embedimage-form');
 
+// Check for upload type, this is either coming from a regular form
+// or the drag and drop control
+if ($upload_type == 'drop') {
+	$upload = $_FILES['files'];
+} else {
+	$upload = $_FILES['upload'];
+}
+
 // must have a file if a new file upload
-if (empty($_FILES['upload']['name'])) {
+if (empty($upload['name'])) {
 	$error = elgg_echo('embedimage:error:nofile');
 	echo json_encode(array('status' => -1, 'system_messages' => array('error' => $error)));
 	return true;
 }
 
 // Grab type to make sure we have an image
-$simpletype = file_get_simple_type($_FILES['upload']['type']);
+$simpletype = file_get_simple_type($upload['type']);
 
 // Check simpletype, need an image
 if ($simpletype != 'image') {
@@ -46,7 +55,7 @@ $embedimage->subtype = "embedimage";
 
 // if no title on new upload, grab filename
 if (empty($title)) {
-	$title = $_FILES['upload']['name'];
+	$title = $upload['name'];
 }
 
 $embedimage->title = $title;
@@ -55,21 +64,21 @@ $embedimage->access_id = $access_id;
 $embedimage->container_guid = $container_guid;
 
 // we have a file upload, so process it
-if (isset($_FILES['upload']['name']) && !empty($_FILES['upload']['name'])) {
+if (isset($upload['name']) && !empty($upload['name'])) {
 
 	$prefix = "file/";
 
-	$filestorename = elgg_strtolower(time().$_FILES['upload']['name']);
+	$filestorename = elgg_strtolower(time().$upload['name']);
 	
 	$embedimage->setFilename($prefix.$filestorename);
-	$embedimage->setMimeType($_FILES['upload']['type']);
-	$embedimage->originalfilename = $_FILES['upload']['name'];
+	$embedimage->setMimeType($upload['type']);
+	$embedimage->originalfilename = $upload['name'];
 	$embedimage->simpletype = $simpletype;
 
 	// Open the file to guarantee the directory exists
 	$embedimage->open("write");
 	$embedimage->close();
-	move_uploaded_file($_FILES['upload']['tmp_name'], $embedimage->getFilenameOnFilestore());
+	move_uploaded_file($upload['tmp_name'], $embedimage->getFilenameOnFilestore());
 
 	$guid = $embedimage->save();
 
@@ -78,7 +87,7 @@ if (isset($_FILES['upload']['name']) && !empty($_FILES['upload']['name'])) {
 		$thumbnail = get_resized_image_from_existing_file($embedimage->getFilenameOnFilestore(),60,60, true);
 		if ($thumbnail) {
 			$thumb = new ElggFile();
-			$thumb->setMimeType($_FILES['upload']['type']);
+			$thumb->setMimeType($upload['type']);
 
 			$thumb->setFilename($prefix."thumb".$filestorename);
 			$thumb->open("write");

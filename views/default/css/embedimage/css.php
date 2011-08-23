@@ -33,3 +33,35 @@
 .embedimage-gallery-item h3 {
 	margin-bottom: 5px;
 }
+
+.drag-upload {
+	display: none;
+}
+
+.embedimage-dropzone {
+	margin-left: 15px;
+	margin-right: 15px;
+	width: 200px;
+	height: 150px;
+	background-image: url('<?php echo elgg_get_site_url() . 'mod/embedimage/_graphics/dropzone.png' ?>');
+}
+
+.embedimage-form-table h3 {
+	margin-bottom: 15px;
+}
+
+.embedimage-form-table .embedimage-dropzone-container {
+	width: 30%;
+}
+
+.embedimage-form-table .embedimage-or-container {
+	vertical-align: middle;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	width: 10%;
+}
+
+.embedimage-form-table .embedimage-form-container {
+	width: 60%
+}
