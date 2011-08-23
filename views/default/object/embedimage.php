@@ -96,7 +96,7 @@ HTML;
 
 } elseif (elgg_in_context('gallery')) {
 	echo '<div class="embedimage-gallery-item">';
-	echo "<h3>" . $file->title . "</h3>";
+	echo "<div class='embedimage-gallery-item-title'><span><a href='{$file->getURL()}'>" . $file->title . "</a></span></div>";
 	echo elgg_view_entity_icon($file, 'medium');
 	echo "<p class='elgg-subtext'>$owner_link $date</p>";
 	echo '</div>';
