@@ -23,15 +23,18 @@ function embedimage_init() {
 
 	// Register CSS
 	$e_css = elgg_get_simplecache_url('css', 'embedimage/css');
+	elgg_register_simplecache_view('css/embedimage/css');
 	elgg_register_css('elgg.embedimage', $e_css);
 	elgg_load_css('elgg.embedimage');
 
 	// Register JS libraries
 	$e_js = elgg_get_simplecache_url('js', 'embedimage/embedimage');
+	elgg_register_simplecache_view('js/embedimage/embedimage');
 	elgg_register_js('elgg.embedimage', $e_js);
 
 	// Register JS for autosuggest
 	$j_js = elgg_get_simplecache_url('js', 'jquery_file_upload');
+	elgg_register_simplecache_view('js/jquery_file_upload');
 	elgg_register_js('jQuery-File-Upload', $j_js);
 
 	// Register page handler
