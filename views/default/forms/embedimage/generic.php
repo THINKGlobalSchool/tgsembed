@@ -22,6 +22,7 @@ $submit_input = elgg_view('input/submit', array(
 	'id' => 'embed-generic-submit',
 	'value' => elgg_echo('submit'),
 	'class' => 'elgg-button-submit elgg-state-disabled',
+	'disabled' => 'DISABLED',
 ));
 
 $content = <<<HTML
@@ -116,17 +117,19 @@ echo $content;
 		// auto guess the service.
 		embed_resource_input.keyup(web_services_ecml_update);
 
-		$('#embed-generic-submit').click(function() {
-			// insert the ECML
-			// if the ECML input is empty, insert the resource.
-			if (!(content = $('body').data('elgg_embed_ecml'))) {
-				// @todo display an error?
-				content = embed_resource_input.val();
+		$('#embed-generic-submit').click(function(event) {
+			if ($(this).is(':disabled') == false) {
+				// insert the ECML
+				// if the ECML input is empty, insert the resource.
+				if (!(content = $('body').data('elgg_embed_ecml'))) {
+					// @todo display an error?
+					content = embed_resource_input.val();
+				}
+
+				elgg.embedimage.insert(content);
+
+				event.preventDefault();
 			}
-
-			elgg.embedimage.insert(content);
-
-			return false;
 		});
 	});
 	</script>
