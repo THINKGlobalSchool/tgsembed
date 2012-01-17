@@ -12,5 +12,6 @@
 
 // We're given the content encoded, so decode it and spit it out
 if (elgg_get_context() != 'search') {
+	header('X-XSS-Protection: 0');
 	echo urldecode($vars['embed']);
 } 
