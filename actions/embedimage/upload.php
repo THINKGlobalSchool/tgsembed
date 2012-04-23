@@ -49,7 +49,6 @@ if ($simpletype != 'image') {
 	return true;
 }
 
-// Hope this works..
 $embedimage = new FilePluginFile();
 $embedimage->subtype = "embedimage";
 
