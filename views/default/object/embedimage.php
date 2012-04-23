@@ -61,14 +61,6 @@ if (elgg_in_context('widgets')) {
 }
 
 if ($full && !elgg_in_context('gallery')) {
-
-	$extra = '';
-	if (elgg_view_exists("file/specialcontent/$mime")) {
-		$extra = elgg_view("file/specialcontent/$mime", $vars);
-	} else if (elgg_view_exists("file/specialcontent/$base_type/default")) {
-		$extra = elgg_view("file/specialcontent/$base_type/default", $vars);
-	}
-
 	$header = elgg_view_title($file->title);
 
 	$params = array(
@@ -90,7 +82,6 @@ $file_info
 <div class="file elgg-content">
 	<br />
 	$file_icon
-	$extra
 </div>
 HTML;
 

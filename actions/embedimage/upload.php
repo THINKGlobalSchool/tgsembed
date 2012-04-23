@@ -82,6 +82,13 @@ if (isset($upload['name']) && !empty($upload['name'])) {
 
 	$guid = $embedimage->save();
 
+	// Tidypics is installed (it has the settings we want) orient the image properly only if we're using IM
+	if (elgg_is_active_plugin('tidypics') && elgg_get_plugin_setting('image_lib', 'tidypics')) {
+		// Auto-orient the image
+		$command = elgg_get_plugin_setting('im_path', 'tidypics') . "convert \"" . $embedimage->getFilenameOnFilestore() . "\" -auto-orient \"" . $embedimage->getFilenameOnFilestore() . "\"";
+		exec($command);
+	}
+
 	// if image, we need to create thumbnails (this should be moved into a function)
 	if ($guid) {
 		$thumbnail = get_resized_image_from_existing_file($embedimage->getFilenameOnFilestore(),60,60, true);

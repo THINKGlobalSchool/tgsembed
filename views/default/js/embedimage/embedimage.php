@@ -150,4 +150,3 @@ elgg.embedimage.menuclick = function(event) {
 }
 
 elgg.register_hook_handler('init', 'system', elgg.embedimage.init);
-//</script>
