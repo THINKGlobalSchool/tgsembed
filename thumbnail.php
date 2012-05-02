@@ -19,6 +19,8 @@ $file_guid = (int) get_input('file_guid', 0);
 // Get file thumbnail size
 $size = get_input('size', 'small');
 
+$ia = elgg_get_ignore_access();
+elgg_set_ignore_access();
 $file = new ElggFile($file_guid);
 
 if (!$file || $file->getSubtype() != "embedimage") {
@@ -61,3 +63,4 @@ if ($simpletype == "image") {
 		exit;
 	}
 }
+elgg_set_ignore_access($ia);
