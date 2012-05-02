@@ -71,6 +71,8 @@ elgg.embedimage.initDragDropInput = function() {
 			if (data.result.output.status >= 0) {
 				// Insert the image
 				elgg.embedimage.insertImage(data.result.output.title, data.result.output.entity_url, data.result.output.icon_url);
+			} else {
+				$.colorbox.close()
 			}
         }
     });
