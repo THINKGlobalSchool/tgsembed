@@ -46,10 +46,6 @@ $menu = elgg_view_menu('embedimage-popup-menu', array(
 	'class' => 'elgg-menu-hz elgg-menu-filter elgg-menu-filter-default'
 ));
 
-
-
-echo elgg_view_title(elgg_echo('embedimage:label:embedcontent'));
-
 echo $menu;
 
 $content = elgg_view_form('embedimage/upload', $form_vars);

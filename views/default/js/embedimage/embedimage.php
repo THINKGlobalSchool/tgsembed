@@ -15,27 +15,34 @@ elgg.provide('elgg.embedimage');
 
 // Init function
 elgg.embedimage.init = function() {	
-	// Create lightbox manually
-	$(".embedimage-control").fancybox({
-		//'modal': true,
-		'onComplete': function() {
-			elgg.embedimage.initDragDropInput();
-		}
-	});
-
-	// caches the current textarea id
-	$(".embedimage-control").live('click', function() {
-		var classes = $(this).attr('class');
-		var embedClass = classes.split(/[, ]+/).pop();
-		var textAreaId = embedClass.substr(embedClass.indexOf('embedimage-control-') + "embedimage-control-".length);
-		elgg.embedimage.textAreaId = textAreaId;
-	});
+	elgg.embedimage.initLightbox();
 
 	// Make embedimage popup tabs clickable
 	$('.embedimage-menu-item').live('click', elgg.embedimage.menuclick);
 
 	// Form submit handler
 	$('#embedimage-form').live('submit', elgg.embedimage.submit);
+}
+
+/**
+ * Init lightboxes (can be called manually)
+ */
+elgg.embedimage.initLightbox = function() {
+	$('.embedimage-control').colorbox({
+		'onComplete' : function() {
+			elgg.embedimage.initDragDropInput();
+		},
+		'onOpen' : function() {
+			$(this).removeClass('cboxElement');
+			var classes = $(this).attr('class');
+			var embedClass = classes.split(/[, ]+/).pop();
+			var textAreaId = embedClass.substr(embedClass.indexOf('embedimage-control-') + "embedimage-control-".length);
+			elgg.embedimage.textAreaId = textAreaId;
+		},
+		'onClosed' : function() {
+			$(this).addClass('cboxElement');
+		}
+	});	
 }
 
 /**
@@ -79,12 +86,11 @@ elgg.embedimage.initDragDropInput = function() {
  */
 elgg.embedimage.insert = function(content) {
 	var textAreaId = elgg.embedimage.textAreaId;
-
 	$('#' + textAreaId).val($('#' + textAreaId).val() + ' ' + content + ' ');
 
 	<?php echo elgg_view('embed/custom_insert_js'); ?>
 
-	$.fancybox.close();
+	$.colorbox.close()
 }
 
 /**
@@ -127,7 +133,7 @@ elgg.embedimage.submit = function(event) {
 					elgg.embedimage.insertImage(json_response.title, json_response.entity_url, json_response.icon_url);
 				} else {
 					// Close the box
-					$.fancybox.close();
+					$.colorbox.close()
 				}
 			}
 		}
@@ -145,6 +151,8 @@ elgg.embedimage.menuclick = function(event) {
 
 	$(this).parent().addClass('elgg-state-selected');
 	$($(this).attr('href')).show();
+	
+	$.colorbox.resize()
 
 	event.preventDefault();
 }
