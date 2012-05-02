@@ -32,10 +32,15 @@ function embedimage_init() {
 	elgg_register_simplecache_view('js/embedimage/embedimage');
 	elgg_register_js('elgg.embedimage', $e_js);
 
-	// Register JS for autosuggest
+	// Register JS for jquery file upload
 	$j_js = elgg_get_simplecache_url('js', 'jquery_file_upload');
 	elgg_register_simplecache_view('js/jquery_file_upload');
 	elgg_register_js('jQuery-File-Upload', $j_js);
+	
+	// Register colorbox JS
+	$cb_js = elgg_get_simplecache_url('js', 'colorbox');
+	elgg_register_simplecache_view('js/colorbox');
+	elgg_register_js('colorbox', $cb_js);
 
 	// Register page handler
 	elgg_register_page_handler('embedimage','embedimage_page_handler');
@@ -130,14 +135,13 @@ function embedimage_longtext_menu($hook, $type, $items, $vars) {
 		'name' => 'embedimage',
 		'href' => "embedimage",
 		'text' => elgg_echo('embedimage:label:embedcontent'),
-		//'rel' => 'lightbox',
 		'link_class' => "elgg-longtext-control embedimage-control embedimage-control-{$vars['id']}",
 		'priority' => 10,
+		'title' => elgg_view_title(elgg_echo('embedimage:label:embedcontent')),
 	));
 
-	elgg_load_js('lightbox');
+	elgg_load_js('colorbox');
 	elgg_load_js('jQuery-File-Upload');
-	elgg_load_css('lightbox');
 	elgg_load_js('elgg.embedimage');
 
 	return $items;
