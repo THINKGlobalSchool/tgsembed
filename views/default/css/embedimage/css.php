@@ -108,6 +108,10 @@
 	width: 60%
 }
 
+.embedimage-add-spotcontent {
+	font-size: 11px;
+}
+
 /* color box */
 /*
     ColorBox Core Style:

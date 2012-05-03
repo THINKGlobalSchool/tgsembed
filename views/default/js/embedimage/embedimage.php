@@ -34,6 +34,7 @@ elgg.embedimage.initLightbox = function() {
 	$('.embedimage-control').colorbox({
 		'onComplete' : function() {
 			elgg.embedimage.initDragDropInput();
+			$(this).colorbox.resize();
 		},
 		'onOpen' : function() {
 			$(this).removeClass('cboxElement');
