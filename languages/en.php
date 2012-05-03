@@ -21,10 +21,12 @@ $english = array(
 	'embedimage:label:none' => 'No images',
 	'embedimage:label:dropzone_desc' => 'Drag & Drop',
 	'embedimage:label:upload_desc' => 'Browse & Upload',
-	'embedimage:label:image' => 'Image',
-	'embedimage:label:generic' => 'Embed Generic',
-	'embedimage:label:embedcontent' => 'Embed Content',
+	'embedimage:label:embedimage' => 'Image',
+	'embedimage:label:embedspotcontent' => 'Spot Content',
+	'embedimage:label:embedcode' => 'Embed Code',
+	'embedimage:label:insertcontent' => 'Insert Content',
 	'embedimage:label:instructions' => 'Copy and paste the embed code into the box below',
+	'embedimage:label:insertlink' => 'Insert Link',
 
 	// River
 
@@ -35,6 +37,7 @@ $english = array(
 	'embedimage:error:save' => 'There was an error saving the embed image',
 	'embedimage:error:nofile' => 'You must select a file',
 	'embedimage:error:invalidfile' => 'File must be an image',
+	'embedimage:error:invalidentity' => 'Invalid Entity',
 	'embedimage:success:save' => 'Successfully saved embed image',
 	'embedimage:success:delete' => 'Successfully deleted the embed image',
 

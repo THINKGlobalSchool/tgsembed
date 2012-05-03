@@ -19,7 +19,8 @@
 
 }
 
-#embedimage-module-generic {
+#embedimage-module-generic,
+#embedimage-module-spot {
 	display: none;
 }
 

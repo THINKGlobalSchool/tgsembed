@@ -18,10 +18,13 @@ elgg.embedimage.init = function() {
 	elgg.embedimage.initLightbox();
 
 	// Make embedimage popup tabs clickable
-	$('.embedimage-menu-item').live('click', elgg.embedimage.menuclick);
+	$(document).delegate('.embedimage-menu-item', 'click', elgg.embedimage.menuclick);
 
 	// Form submit handler
-	$('#embedimage-form').live('submit', elgg.embedimage.submit);
+	$(document).delegate('#embedimage-form', 'submit', elgg.embedimage.submit);
+	
+	// Click handler for spot content click
+	$(document).delegate('.embedimage-add-spotcontent', 'click', elgg.embedimage.spotContentClick);
 }
 
 /**
@@ -107,6 +110,18 @@ elgg.embedimage.insertImage = function(title, entity_url, icon_url) {
 	elgg.embedimage.insert(content);
 }
 
+
+/**
+ * Wrapper function to build spot entity content to insert
+ *
+ * @param string title
+ * @param string entity_url
+ */
+elgg.embedimage.insertLink = function(title, entity_url) {
+	var content = "<a href='" + entity_url + "' title='" + title + "'>" + title + "</a>";
+	elgg.embedimage.insert(content);
+}
+
 /**
  * Submit the image upload form through Ajax
  *
@@ -154,8 +169,36 @@ elgg.embedimage.menuclick = function(event) {
 	$(this).parent().addClass('elgg-state-selected');
 	$($(this).attr('href')).show();
 	
-	$.colorbox.resize()
+	$.colorbox.resize();
 
+	event.preventDefault();
+}
+
+// Click handler for spot content click
+elgg.embedimage.spotContentClick = function(event) {
+	if (!$(this).hasClass('disabled')) {
+		// href will be #{guid}
+		var entity_guid = $(this).attr('href').substring(1);
+
+		$(this).addClass('disabled');
+
+		$_this = $(this);
+		
+		elgg.action('embedimage/entityinfo', {
+			data: {
+				guid: entity_guid,
+			},
+			success: function(data) {
+				if (data.status != -1) {
+					// Insert link to content
+					elgg.embedimage.insertLink(data.output.entity_title, data.output.entity_url);
+				} else {
+					// Error
+					$_this.removeClass('disabled');
+				}
+			}
+		});
+	}
 	event.preventDefault();
 }
 
