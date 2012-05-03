@@ -26,7 +26,7 @@ $params = array(
 
 elgg_register_menu_item('embedimage-popup-menu', array(
 	'name' => 'embedimage-image',
-	'text' => elgg_echo('embedimage:label:image'),
+	'text' => elgg_echo('embedimage:label:embedimage'),
 	'href' => '#embedimage-module-image',
 	'priority' => 0,
 	'item_class' => 'elgg-state-selected',
@@ -34,10 +34,18 @@ elgg_register_menu_item('embedimage-popup-menu', array(
 ));
 
 elgg_register_menu_item('embedimage-popup-menu', array(
-	'name' => 'embedimage-generic',
-	'text' => elgg_echo('embedimage:label:generic'),
-	'href' => '#embedimage-module-generic',
+	'name' => 'embedimage-spot',
+	'text' => elgg_echo('embedimage:label:embedspotcontent'),
+	'href' => '#embedimage-module-spot',
 	'priority' => 1,
+	'class' => 'embedimage-menu-item',
+));
+
+elgg_register_menu_item('embedimage-popup-menu', array(
+	'name' => 'embedimage-generic',
+	'text' => elgg_echo('embedimage:label:embedcode'),
+	'href' => '#embedimage-module-generic',
+	'priority' => 2,
 	'class' => 'embedimage-menu-item',
 ));
 
@@ -53,6 +61,13 @@ echo elgg_view_module('aside', '', $content, array(
 	'class' => 'embedimage-module',
 	'id' => 'embedimage-module-image',
 ));
+
+$content = elgg_view_form('embedimage/spot', $form_vars);
+echo elgg_view_module('aside', '', $content, array(
+	'class' => 'embedimage-module',
+	'id' => 'embedimage-module-spot',
+));
+
 
 $content = elgg_view_form('embedimage/generic', $form_vars);
 echo elgg_view_module('aside', '', $content, array(

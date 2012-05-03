@@ -57,6 +57,9 @@ function embedimage_init() {
 	// Item entity menu hook
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'embedimage_setup_entity_menu', 999);
 	
+	// Register simpleicon menu items
+	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'embedimage_setup_simpleicon_entity_menu');
+	
 	// Register for pagesetup event
 	elgg_register_event_handler('pagesetup', 'system', 'embedimage_pagesetup');
 
@@ -64,10 +67,14 @@ function embedimage_init() {
 	$action_base = elgg_get_plugins_path() . 'embedimage/actions/embedimage';
 	elgg_register_action('embedimage/upload', "$action_base/upload.php");
 	elgg_register_action('embedimage/delete', "$action_base/delete.php");
+	elgg_register_action('embedimage/entityinfo', "$action_base/entityinfo.php");
 
 	/** GENERIC EMBED **/
 	// Hook to add new type
 	elgg_register_plugin_hook_handler('get_keywords', 'ecml', 'generic_embed_get_keywords');
+	
+	// Register Ajax Views
+	elgg_register_ajax_view('embedimage/modules/spotcontent');
 
 	return TRUE;
 }
@@ -134,10 +141,10 @@ function embedimage_longtext_menu($hook, $type, $items, $vars) {
 	$items[] = ElggMenuItem::factory(array(
 		'name' => 'embedimage',
 		'href' => "embedimage",
-		'text' => elgg_echo('embedimage:label:embedcontent'),
+		'text' => elgg_echo('embedimage:label:insertcontent'),
 		'link_class' => "elgg-longtext-control embedimage-control embedimage-control-{$vars['id']}",
 		'priority' => 10,
-		'title' => elgg_view_title(elgg_echo('embedimage:label:embedcontent')),
+		'title' => elgg_view_title(elgg_echo('embedimage:label:insertcontent')),
 	));
 
 	elgg_load_js('colorbox');
@@ -196,6 +203,34 @@ function embedimage_setup_entity_menu($hook, $type, $return, $params) {
 	return array();
 }
 
+/**
+ * Register items for the simpleicon entity menu
+ *
+ * @param sting  $hook   view
+ * @param string $type   input/tags
+ * @param mixed  $return  Value
+ * @param mixed  $params Params
+ *
+ * @return array
+ */
+function embedimage_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
+	if (get_input('embed_spot_content')) {
+		$entity = $params['entity'];
+		
+		// Item to add object to portfolio
+		$options = array(
+			'name' => 'link_content',
+			'text' => elgg_echo('embedimage:label:insertlink'),
+			'title' => 'link_content',
+			'href' => "#{$entity->guid}",
+			'class' => 'embedimage-add-spotcontent elgg-button elgg-button-action',
+			'section' => 'info',
+		);
+		$return[] = ElggMenuItem::factory($options);
+	}
+	return $return;
+}
+
 /** GENERIC EMBED **/
 /**
  * Plugin hook to add new 'generic' ECML keyword (won't work on its own..)
@@ -210,7 +245,7 @@ function generic_embed_get_keywords($hook, $type, $value, $params) {
 	$value['generic'] = array(
 		'name' => 'Generic Embed',
 		'view' => "ecml/keywords/generic",
-		'description' => 'Embed Generic Content',
+		'description' => 'Embed Generic Code',
 		'usage' => 'Only usable from the embed interface',
 		'type' => 'generic',
 		'params' => array('embed'), // a list of supported params
