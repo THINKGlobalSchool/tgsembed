@@ -24,7 +24,9 @@ echo <<<JAVASCRIPT
 			var embedResizeColorbox = function() {
 				$.colorbox.resize();
 			};
+			
 			elgg.register_hook_handler('pagination_content_loaded', 'modules', embedResizeColorbox);
+			elgg.register_hook_handler('generic_populated', 'modules', embedResizeColorbox);
 			elgg.modules.genericmodule.init();
 
 		});
