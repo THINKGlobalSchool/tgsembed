@@ -3,7 +3,7 @@
  * TGS Embed Image save action
  * - Modified version of the file/upload action
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -22,7 +22,7 @@ if ($container_guid == 0) {
 	$container_guid = elgg_get_logged_in_user_guid();
 }
 
-elgg_make_sticky_form('embedimage-form');
+elgg_make_sticky_form('tgsembed-image-form');
 
 // Check for upload type, this is either coming from a regular form
 // or the drag and drop control
@@ -34,7 +34,7 @@ if ($upload_type == 'drop') {
 
 // must have a file if a new file upload
 if (empty($upload['name'])) {
-	$error = elgg_echo('embedimage:error:nofile');
+	$error = elgg_echo('tgsembed:error:nofile');
 	echo json_encode(array('status' => -1, 'system_messages' => array('error' => $error)));
 	return true;
 }
@@ -44,7 +44,7 @@ $simpletype = file_get_simple_type($upload['type']);
 
 // Check simpletype, need an image
 if ($simpletype != 'image') {
-	$error = elgg_echo('embedimage:error:invalidfile');
+	$error = elgg_echo('tgsembed:error:invalidfile');
 	echo json_encode(array('status' => -1, 'system_messages' => array('error' => $error)));
 	return true;
 }
@@ -127,10 +127,10 @@ if (isset($upload['name']) && !empty($upload['name'])) {
 }
 
 // file saved so clear sticky form
-elgg_clear_sticky_form('embedimage-form');
+elgg_clear_sticky_form('tgsembed-image-form');
 
 if ($guid) {
-	$message = elgg_echo("embedimage:success:save");
+	$message = elgg_echo("tgsembed:success:save");
 	echo json_encode(array(
 		'status' => 0, 
 		'system_messages' => array('success' => $message),
@@ -140,7 +140,7 @@ if ($guid) {
 	));
 } else {
 	// failed to save file object - nothing we can do about this
-	$error = elgg_echo("embedimage:error:save");
+	$error = elgg_echo("tgsembed:error:save");
 	echo json_encode(array('status' => -1, 'system_messages' => array('error' => $error)));
 }
 

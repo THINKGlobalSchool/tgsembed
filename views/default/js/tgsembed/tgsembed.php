@@ -2,7 +2,7 @@
 /**
  * TGS Embed Image JS
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -11,37 +11,40 @@
  */
 ?>
 //<script>
-elgg.provide('elgg.embedimage');
+elgg.provide('elgg.tgsembed');
 
 // Init function
-elgg.embedimage.init = function() {	
-	elgg.embedimage.initLightbox();
+elgg.tgsembed.init = function() {	
+	elgg.tgsembed.initLightbox();
 
-	// Make embedimage popup tabs clickable
-	$(document).delegate('.embedimage-menu-item', 'click', elgg.embedimage.menuclick);
+	// Make tgsembed popup tabs clickable
+	$(document).delegate('.tgsembed-menu-item', 'click', elgg.tgsembed.menuclick);
 
 	// Form submit handler
-	$(document).delegate('#embedimage-form', 'submit', elgg.embedimage.submit);
+	$(document).delegate('#tgsembed-image-form', 'submit', elgg.tgsembed.submit);
 	
 	// Click handler for spot content click
-	$(document).delegate('.embedimage-add-spotcontent', 'click', elgg.embedimage.spotContentClick);
+	$(document).delegate('.tgsembed-add-spotcontent', 'click', elgg.tgsembed.spotContentClick);
+
+	// Change handler for content subtype change
+	$(document).delegate('#tgsembed-spotcontent-subtype-selector', 'change', elgg.tgsembed.spotContentSubtypeChange);
 }
 
 /**
  * Init lightboxes (can be called manually)
  */
-elgg.embedimage.initLightbox = function() {
-	$('.embedimage-control').colorbox({
+elgg.tgsembed.initLightbox = function() {
+	$('.tgsembed-control').colorbox({
 		'onComplete' : function() {
-			elgg.embedimage.initDragDropInput();
+			elgg.tgsembed.initDragDropInput();
 			$(this).colorbox.resize();
 		},
 		'onOpen' : function() {
 			$(this).removeClass('cboxElement');
 			var classes = $(this).attr('class');
 			var embedClass = classes.split(/[, ]+/).pop();
-			var textAreaId = embedClass.substr(embedClass.indexOf('embedimage-control-') + "embedimage-control-".length);
-			elgg.embedimage.textAreaId = textAreaId;
+			var textAreaId = embedClass.substr(embedClass.indexOf('tgsembed-control-') + "tgsembed-control-".length);
+			elgg.tgsembed.textAreaId = textAreaId;
 		},
 		'onClosed' : function() {
 			$(this).addClass('cboxElement');
@@ -54,18 +57,18 @@ elgg.embedimage.initLightbox = function() {
  *
  * @return void
  */
-elgg.embedimage.initDragDropInput = function() {
+elgg.tgsembed.initDragDropInput = function() {
 	$('.drag-upload').fileupload({
         dataType: 'json',
-		dropZone: $('.embedimage-dropzone'),
-        url: elgg.get_site_url() + 'action/embedimage/upload?type=drop',
+		dropZone: $('.tgsembed-image-dropzone'),
+        url: elgg.get_site_url() + 'action/tgsembed/upload?type=drop',
 		drop: function (e, data) {
-			$(e.originalEvent.target).removeClass('embedimage-dropzone-drag');
-			$(e.originalEvent.target).removeClass('embedimage-dropzone-background');
+			$(e.originalEvent.target).removeClass('tgsembed-image-dropzone-drag');
+			$(e.originalEvent.target).removeClass('tgsembed-image-dropzone-background');
 			$(e.originalEvent.target).addClass('elgg-ajax-loader');
 		},
 		dragover: function (e, data) {
-			$(e.originalEvent.target).addClass('embedimage-dropzone-drag');
+			$(e.originalEvent.target).addClass('tgsembed-image-dropzone-drag');
 		},
         done: function (e, data) {
 			if (data.result.output.system_messages) {
@@ -74,7 +77,7 @@ elgg.embedimage.initDragDropInput = function() {
 			}
 			if (data.result.output.status >= 0) {
 				// Insert the image
-				elgg.embedimage.insertImage(data.result.output.title, data.result.output.entity_url, data.result.output.icon_url);
+				elgg.tgsembed.insertImage(data.result.output.title, data.result.output.entity_url, data.result.output.icon_url);
 			} else {
 				$.colorbox.close()
 			}
@@ -90,8 +93,8 @@ elgg.embedimage.initDragDropInput = function() {
  * @param string icon_url
  * @return void
  */
-elgg.embedimage.insert = function(content) {
-	var textAreaId = elgg.embedimage.textAreaId;
+elgg.tgsembed.insert = function(content) {
+	var textAreaId = elgg.tgsembed.textAreaId;
 	$('#' + textAreaId).val($('#' + textAreaId).val() + ' ' + content + ' ');
 
 	<?php echo elgg_view('embed/custom_insert_js'); ?>
@@ -106,9 +109,9 @@ elgg.embedimage.insert = function(content) {
  * @param string entity_url
  * @param string icon_url
  */
-elgg.embedimage.insertImage = function(title, entity_url, icon_url) {
+elgg.tgsembed.insertImage = function(title, entity_url, icon_url) {
 	var content = "<a href='" + entity_url + "' title='" + title + "'><img src='" + icon_url + "' /></a>";
-	elgg.embedimage.insert(content);
+	elgg.tgsembed.insert(content);
 }
 
 
@@ -118,9 +121,9 @@ elgg.embedimage.insertImage = function(title, entity_url, icon_url) {
  * @param string title
  * @param string entity_url
  */
-elgg.embedimage.insertLink = function(title, entity_url) {
+elgg.tgsembed.insertLink = function(title, entity_url) {
 	var content = "<a href='" + entity_url + "' title='" + title + "'>" + title + "</a>";
-	elgg.embedimage.insert(content);
+	elgg.tgsembed.insert(content);
 }
 
 /**
@@ -129,9 +132,9 @@ elgg.embedimage.insertLink = function(title, entity_url) {
  * @param {Object} event
  * @return bool
  */
-elgg.embedimage.submit = function(event) {
+elgg.tgsembed.submit = function(event) {
 	// Show loader
-	$('#embedimage-foot').addClass('elgg-ajax-loader');
+	$('#tgsembed-foot').addClass('elgg-ajax-loader');
 
 	// This is kind of gross, I should be setting the datatype and X-Requested-With
 	// But this is the only way to get the upload working in all 3 browsers
@@ -148,7 +151,7 @@ elgg.embedimage.submit = function(event) {
 				}
 				if (json_response.status >= 0) {
 					// Insert the image
-					elgg.embedimage.insertImage(json_response.title, json_response.entity_url, json_response.icon_url);
+					elgg.tgsembed.insertImage(json_response.title, json_response.entity_url, json_response.icon_url);
 				} else {
 					// Close the box
 					$.colorbox.close()
@@ -163,9 +166,9 @@ elgg.embedimage.submit = function(event) {
 }
 
 // Click handler for menu items
-elgg.embedimage.menuclick = function(event) {
-	$('.embedimage-menu-item').parent().removeClass('elgg-state-selected');
-	$('.embedimage-module').hide();
+elgg.tgsembed.menuclick = function(event) {
+	$('.tgsembed-menu-item').parent().removeClass('elgg-state-selected');
+	$('.tgsembed-module').hide();
 
 	$(this).parent().addClass('elgg-state-selected');
 	$($(this).attr('href')).show();
@@ -176,7 +179,7 @@ elgg.embedimage.menuclick = function(event) {
 }
 
 // Click handler for spot content click
-elgg.embedimage.spotContentClick = function(event) {
+elgg.tgsembed.spotContentClick = function(event) {
 	if (!$(this).hasClass('disabled')) {
 		// href will be #{guid}
 		var entity_guid = $(this).attr('href').substring(1);
@@ -185,14 +188,14 @@ elgg.embedimage.spotContentClick = function(event) {
 
 		$_this = $(this);
 		
-		elgg.action('embedimage/entityinfo', {
+		elgg.action('tgsembed/entityinfo', {
 			data: {
 				guid: entity_guid,
 			},
 			success: function(data) {
 				if (data.status != -1) {
 					// Insert link to content
-					elgg.embedimage.insertLink(data.output.entity_title, data.output.entity_url);
+					elgg.tgsembed.insertLink(data.output.entity_title, data.output.entity_url);
 				} else {
 					// Error
 					$_this.removeClass('disabled');
@@ -203,4 +206,16 @@ elgg.embedimage.spotContentClick = function(event) {
 	event.preventDefault();
 }
 
-elgg.register_hook_handler('init', 'system', elgg.embedimage.init);
+// Change handler for content subtype
+elgg.tgsembed.spotContentSubtypeChange = function(event) {
+	$module = $('#tgsembed-spotcontent-module');
+	var subtype = $(this).val();
+
+	$subtype_input = $module.find('div.options > input#selected_subtype');
+	$subtype_input.val(subtype);
+
+	elgg.modules.genericmodule.populateContainer($module);
+	event.preventDefault();
+}
+
+elgg.register_hook_handler('init', 'system', elgg.tgsembed.init);
