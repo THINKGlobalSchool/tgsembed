@@ -3,7 +3,7 @@
  * TGS Embed Generic
  * - modified hacked up version of the embed-generic form
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -11,7 +11,7 @@
  * 
  */
 
-$instructions = elgg_echo('embedimage:label:instructions');
+$instructions = elgg_echo('tgsembed:label:instructions');
 
 $generic_input = elgg_view('input/plaintext', array(
 	'name' => 'generic_content', 
@@ -126,7 +126,7 @@ echo $content;
 					content = embed_resource_input.val();
 				}
 
-				elgg.embedimage.insert(content);
+				elgg.tgsembed.insert(content);
 
 				event.preventDefault();
 			}

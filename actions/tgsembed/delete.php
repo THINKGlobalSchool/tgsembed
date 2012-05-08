@@ -2,7 +2,7 @@
 /**
  * TGS Embed Image delete action
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -19,10 +19,10 @@ if ($embedimage && $embedimage->getSubtype() == 'embedimage') {
 	// Delete item and icon
 	if ($embedimage->delete()) {
 		// Success
-		system_message(elgg_echo('embedimage:success:delete'));
+		system_message(elgg_echo('tgsembed:success:delete'));
 	} else {
 		// Error
-		register_error(elgg_echo('embedimage:error:delete'));
+		register_error(elgg_echo('tgsembed:error:delete'));
 	}
 	forward(REFERER);
 }

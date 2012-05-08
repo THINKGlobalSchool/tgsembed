@@ -3,7 +3,7 @@
  * TGS Embed Image embedimage object view
  * - Modified version of object/file
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -86,8 +86,8 @@ $file_info
 HTML;
 
 } elseif (elgg_in_context('gallery')) {
-	echo '<div class="embedimage-gallery-item">';
-	echo "<div class='embedimage-gallery-item-title'><span><a href='{$file->getURL()}'>" . $file->title . "</a></span></div>";
+	echo '<div class="tgsembed-gallery-item">';
+	echo "<div class='tgsembed-gallery-item-title'><span><a href='{$file->getURL()}'>" . $file->title . "</a></span></div>";
 	echo elgg_view_entity_icon($file, 'medium');
 	echo "<p class='elgg-subtext'>$owner_link $date</p>";
 	echo '</div>';

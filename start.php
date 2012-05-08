@@ -2,7 +2,7 @@
 /**
  * TGS Embed Image
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -10,27 +10,27 @@
  * 
  */
 
-elgg_register_event_handler('init', 'system', 'embedimage_init');
+elgg_register_event_handler('init', 'system', 'tgsembed_init');
 
-function embedimage_init() {
+function tgsembed_init() {
 
 	// Register and load library
-	elgg_register_library('embedimage', elgg_get_plugins_path() . 'embedimage/lib/embedimage.php');
-	elgg_load_library('embedimage');
+	elgg_register_library('tgsembed', elgg_get_plugins_path() . 'tgsembed/lib/tgsembed.php');
+	elgg_load_library('tgsembed');
 
 	// Register simplecache view for jQuery File Upload
 	elgg_register_simplecache_view('js/jquery_file_upload');
 
 	// Register CSS
-	$e_css = elgg_get_simplecache_url('css', 'embedimage/css');
-	elgg_register_simplecache_view('css/embedimage/css');
-	elgg_register_css('elgg.embedimage', $e_css);
-	elgg_load_css('elgg.embedimage');
+	$e_css = elgg_get_simplecache_url('css', 'tgsembed/css');
+	elgg_register_simplecache_view('css/tgsembed/css');
+	elgg_register_css('elgg.tgsembed', $e_css);
+	elgg_load_css('elgg.tgsembed');
 
 	// Register JS libraries
-	$e_js = elgg_get_simplecache_url('js', 'embedimage/embedimage');
-	elgg_register_simplecache_view('js/embedimage/embedimage');
-	elgg_register_js('elgg.embedimage', $e_js);
+	$e_js = elgg_get_simplecache_url('js', 'tgsembed/tgsembed');
+	elgg_register_simplecache_view('js/tgsembed/tgsembed');
+	elgg_register_js('elgg.tgsembed', $e_js);
 
 	// Register JS for jquery file upload
 	$j_js = elgg_get_simplecache_url('js', 'jquery_file_upload');
@@ -43,64 +43,73 @@ function embedimage_init() {
 	elgg_register_js('colorbox', $cb_js);
 
 	// Register page handler
-	elgg_register_page_handler('embedimage','embedimage_page_handler');
+	elgg_register_page_handler('tgsembed','tgsembed_page_handler');
+
+	// For legacy images
+	elgg_register_page_handler('embedimage','tgsembed_page_handler');
 
 	// Register URL handler
-	elgg_register_entity_url_handler('object', 'embedimage', 'embedimage_url');
+	elgg_register_entity_url_handler('object', 'embedimage', 'tgsembed_url');
 
 	// Hook into longtext menu
-	elgg_register_plugin_hook_handler('register', 'menu:longtext', 'embedimage_longtext_menu');
+	elgg_register_plugin_hook_handler('register', 'menu:longtext', 'tgsembed_longtext_menu');
 
 	// Icon override
-	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'embedimage_icon_url_override');
+	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'tgsembed_icon_url_override');
 
 	// Item entity menu hook
-	elgg_register_plugin_hook_handler('register', 'menu:entity', 'embedimage_setup_entity_menu', 999);
+	elgg_register_plugin_hook_handler('register', 'menu:entity', 'tgsembed_setup_entity_menu', 999);
 	
 	// Register simpleicon menu items
-	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'embedimage_setup_simpleicon_entity_menu');
+	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'tgsembed_setup_simpleicon_entity_menu');
 	
 	// Register for pagesetup event
-	elgg_register_event_handler('pagesetup', 'system', 'embedimage_pagesetup');
+	elgg_register_event_handler('pagesetup', 'system', 'tgsembed_pagesetup');
 
 	// Register actions
-	$action_base = elgg_get_plugins_path() . 'embedimage/actions/embedimage';
-	elgg_register_action('embedimage/upload', "$action_base/upload.php");
-	elgg_register_action('embedimage/delete', "$action_base/delete.php");
-	elgg_register_action('embedimage/entityinfo', "$action_base/entityinfo.php");
+	$action_base = elgg_get_plugins_path() . 'tgsembed/actions/tgsembed';
+	elgg_register_action('tgsembed/upload', "$action_base/upload.php");
+	elgg_register_action('tgsembed/delete', "$action_base/delete.php");
+	elgg_register_action('tgsembed/entityinfo', "$action_base/entityinfo.php");
 
 	/** GENERIC EMBED **/
 	// Hook to add new type
 	elgg_register_plugin_hook_handler('get_keywords', 'ecml', 'generic_embed_get_keywords');
 	
 	// Register Ajax Views
-	elgg_register_ajax_view('embedimage/modules/spotcontent');
+	elgg_register_ajax_view('tgsembed/modules/spotcontent');
+	
+	// Run once
+	run_function_once("tgsembed_run_once");
 
 	return TRUE;
 }
 
 /**
- * Embedimage page handler
+ * Tgsembed page handler
  */
-function embedimage_page_handler($page) {
-	elgg_load_css('elgg.embedimage');
+function tgsembed_page_handler($page) {
+	elgg_load_css('elgg.tgsembed');
 
 	// If ajax request
 	if (elgg_is_xhr()) {
 		switch($page[0]) {
-			case 'embedimage':
+			case 'tgsembed':
 			default:
-				echo elgg_view('embedimage/embed');
+				echo elgg_view('tgsembed/embed');
 				break;
 		}
 	} else {
 		switch($page[0]) {
 			case 'view':
-			 	$params = embedimage_get_page_content_view($page[1]);
+			 	$params = tgsembed_get_page_content_view($page[1]);
+				break;
+			case 'thumbnail':
+				include dirname(__FILE__) . '/thumbnail.php';
 				break;
 			case 'all':
 			default:
-				$params = embedimage_get_page_content_list();
+				$params = tgsembed_get_page_content_list();
 				break;
 		}
 
@@ -118,10 +127,10 @@ function embedimage_page_handler($page) {
  * @param ElggObject entity
  * @return string request url
  */
-function embedimage_url($entity) {
+function tgsembed_url($entity) {
 	$title = $entity->title;
 	$title = elgg_get_friendly_title($title);
-	return "embedimage/view/" . $entity->getGUID() . "/" . $title;
+	return "tgsembed/view/" . $entity->getGUID() . "/" . $title;
 }
 
 /**
@@ -133,23 +142,23 @@ function embedimage_url($entity) {
  * @param array $vars
  * @return array
  */
-function embedimage_longtext_menu($hook, $type, $items, $vars) {
+function tgsembed_longtext_menu($hook, $type, $items, $vars) {
 	if (elgg_get_context() == 'embedimage') {
 		return $items;
 	}
 
 	$items[] = ElggMenuItem::factory(array(
-		'name' => 'embedimage',
-		'href' => "embedimage",
-		'text' => elgg_echo('embedimage:label:insertcontent'),
-		'link_class' => "elgg-longtext-control embedimage-control embedimage-control-{$vars['id']}",
+		'name' => 'tgsembed',
+		'href' => "tgsembed",
+		'text' => elgg_echo('tgsembed:label:insertcontent'),
+		'link_class' => "elgg-longtext-control tgsembed-control tgsembed-control-{$vars['id']}",
 		'priority' => 10,
-		'title' => elgg_view_title(elgg_echo('embedimage:label:insertcontent')),
+		'title' => elgg_view_title(elgg_echo('tgsembed:label:insertcontent')),
 	));
 
 	elgg_load_js('colorbox');
 	elgg_load_js('jQuery-File-Upload');
-	elgg_load_js('elgg.embedimage');
+	elgg_load_js('elgg.tgsembed');
 
 	return $items;
 }
@@ -159,14 +168,14 @@ function embedimage_longtext_menu($hook, $type, $items, $vars) {
  *
  * @return void
  */
-function embedimage_pagesetup() {
+function tgsembed_pagesetup() {
 	if (elgg_get_context() == "settings" && elgg_get_logged_in_user_guid()) {
 		$user = elgg_get_logged_in_user_entity();
 
 		$params = array(
 			'name' => 'embed_images',
-			'text' => elgg_echo('embedimage:title:embedimages'),
-			'href' => "embedimage/all",
+			'text' => elgg_echo('tgsembed:title:embedimages'),
+			'href' => "tgsembed/all",
 		);
 		elgg_register_menu_item('page', $params);
 	}
@@ -179,13 +188,14 @@ function embedimage_pagesetup() {
  *
  * @return string Relative URL
  */
-function embedimage_icon_url_override($hook, $type, $returnvalue, $params) {
+function tgsembed_icon_url_override($hook, $type, $returnvalue, $params) {
 	$file = $params['entity'];
 	$size = $params['size'];
 	if (elgg_instanceof($file, 'object', 'embedimage')) {
 		// thumbnails get first priority
 		if ($file->thumbnail) {
-			return "mod/embedimage/thumbnail.php?file_guid=$file->guid&size=$size";
+			return elgg_get_site_url() . "tgsembed/thumbnail?file_guid=$file->guid&size=$size";
+			//return "mod/tgsembed/thumbnail.php?file_guid=$file->guid&size=$size";
 		}
 	}
 }
@@ -193,7 +203,7 @@ function embedimage_icon_url_override($hook, $type, $returnvalue, $params) {
 /**
  * Item entity plugin hook
  */
-function embedimage_setup_entity_menu($hook, $type, $return, $params) {
+function tgsembed_setup_entity_menu($hook, $type, $return, $params) {
 	$entity = $params['entity'];
 	if (!elgg_instanceof($entity, 'object', 'embedimage')) {
 		return $return;
@@ -213,17 +223,17 @@ function embedimage_setup_entity_menu($hook, $type, $return, $params) {
  *
  * @return array
  */
-function embedimage_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
+function tgsembed_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 	if (get_input('embed_spot_content')) {
 		$entity = $params['entity'];
 		
 		// Item to add object to portfolio
 		$options = array(
 			'name' => 'link_content',
-			'text' => elgg_echo('embedimage:label:insertlink'),
+			'text' => elgg_echo('tgsembed:label:insertlink'),
 			'title' => 'link_content',
 			'href' => "#{$entity->guid}",
-			'class' => 'embedimage-add-spotcontent elgg-button elgg-button-action',
+			'class' => 'tgsembed-add-spotcontent elgg-button elgg-button-action',
 			'section' => 'info',
 		);
 		$return[] = ElggMenuItem::factory($options);
@@ -253,4 +263,11 @@ function generic_embed_get_keywords($hook, $type, $value, $params) {
 	);
 
 	return $value;
+}
+
+/**
+ * Only run this once
+ */
+function tgsembed_run_once() {
+	elgg_add_admin_notice('embed_rewrite_rule', "Warning: You need to add the following RewriteRule to Elgg's .htaccess, otherwise old embedded images will not work! <br /><br />RewriteRule ^mod/embedimage/(.*)   mod/tgsembed/$1");
 }

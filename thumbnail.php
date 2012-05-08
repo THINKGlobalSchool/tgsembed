@@ -3,7 +3,7 @@
  * TGS Embed Image thumbnail
  * - Modified version of the file plugin's thumbnail.php
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -18,6 +18,7 @@ $file_guid = (int) get_input('file_guid', 0);
 
 // Get file thumbnail size
 $size = get_input('size', 'small');
+
 
 $ia = elgg_get_ignore_access();
 elgg_set_ignore_access();

@@ -2,7 +2,7 @@
 /**
  * TGS Embed Image CSS
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -11,20 +11,20 @@
  */
 ?>
 
-.embedimage-module {
+.tgsembed-module {
 	width: 730px;
 }
 
-#embedimage-module-image {
+#tgsembed-module-image {
 
 }
 
-#embedimage-module-generic,
-#embedimage-module-spot {
+#tgsembed-module-generic,
+#tgsembed-module-spot {
 	display: none;
 }
 
-.embedimage-gallery-item {
+.tgsembed-gallery-item {
 	height: 225px;
     overflow: hidden;
 	float: left;
@@ -38,13 +38,13 @@
 	border-radius: 6px;
 }
 
-.embedimage-gallery-item-title  {
+.tgsembed-gallery-item-title  {
 	overflow: hidden;
 	display: block;
 	height:32px;
 	width: 154px;
 }
-.embedimage-gallery-item-title span {
+.tgsembed-gallery-item-title span {
 	font-weight:bold;
 	line-height: 1.2em;
 	height:32px;
@@ -55,11 +55,11 @@
 }
 
 
-.embedimage-gallery-item:hover {
+.tgsembed-gallery-item:hover {
 	background-color: #CCCCCC;
 }
 
-.embedimage-gallery-item h3 {
+.tgsembed-gallery-item h3 {
 	margin-bottom: 5px;
 }
 
@@ -67,7 +67,7 @@
 	display: none;
 }
 
-.embedimage-dropzone {
+.tgsembed-image-dropzone {
 	-webkit-border-radius: 26px;
 	-moz-border-radius: 26px;
 	border-radius: 26px;
@@ -78,25 +78,25 @@
 	height: 150px;
 }
 
-.embedimage-dropzone-background {
-	background-image: url('<?php echo elgg_get_site_url() . 'mod/embedimage/_graphics/dropzone.png' ?>');
+.tgsembed-image-dropzone-background {
+	background-image: url('<?php echo elgg_get_site_url() . 'mod/tgsembed/_graphics/dropzone.png' ?>');
 }
 
-.embedimage-dropzone-drag {
+.tgsembed-image-dropzone-drag {
 	-moz-box-shadow: 0px 0px 15px Green;
 	-webkit-box-shadow: 0px 0px 15px Green;
 	box-shadow: 0px 0px 15px Green;
 }
 
-.embedimage-form-table h3 {
+.tgsembed-image-form-table h3 {
 	margin-bottom: 15px;
 }
 
-.embedimage-form-table .embedimage-dropzone-container {
+.tgsembed-image-form-table .tgsembed-image-dropzone-container {
 	width: 30%;
 }
 
-.embedimage-form-table .embedimage-or-container {
+.tgsembed-image-form-table .tgsembed-image-or-container {
 	vertical-align: middle;
 	text-align: center;
 	font-weight: bold;
@@ -104,15 +104,19 @@
 	width: 10%;
 }
 
-.embedimage-form-table .embedimage-form-container {
+.tgsembed-image-form-table .tgsembed-image-form-container {
 	width: 60%
 }
 
-.embedimage-add-spotcontent {
+.tgsembed-add-spotcontent {
 	font-size: 11px;
 }
 
-/* color box */
+#tgsembed-spotcontent-subtype-selector {
+	float: right;
+	margin-bottom: 3px;
+}
+
 /*
     ColorBox Core Style:
     The following CSS is consistent between example themes and should not be altered.
@@ -152,7 +156,7 @@
         #cboxLoadingOverlay{background:#FFF;}
         #cboxTitle{position:absolute; top:-22px; left:0; padding-left: 10px;}
         #cboxCurrent{position:absolute; top:-22px; right:205px; text-indent:-9999px;}
-        #cboxSlideshow, #cboxPrevious, #cboxNext, #cboxClose{text-indent:-9999px; width:20px; height:20px; position:absolute; top:-20px; background:url('<?php echo elgg_get_site_url() . 'mod/embedimage/_graphics/controls.png' ?>') no-repeat 0 0;}
+        #cboxSlideshow, #cboxPrevious, #cboxNext, #cboxClose{text-indent:-9999px; width:20px; height:20px; position:absolute; top:-20px; background:url('<?php echo elgg_get_site_url() . 'mod/tgsembed/_graphics/controls.png' ?>') no-repeat 0 0;}
         #cboxPrevious{background-position:0px 0px; right:44px;}
         #cboxPrevious:hover{background-position:0px -25px;}
         #cboxNext{background-position:-25px 0px; right:22px;}

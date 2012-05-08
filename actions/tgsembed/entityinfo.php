@@ -3,7 +3,7 @@
  * TGS Embed entityinfo action
  * - checks for and returns entity information
  * 
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -34,6 +34,6 @@ if (elgg_instanceof($entity, 'object')) {
 	));
 	forward(REFERER);
 } else {
-	register_error(elgg_echo('embedimage:error:invalidentity'));
+	register_error(elgg_echo('tgsembed:error:invalidentity'));
 	forward(REFERER);
 }

@@ -3,7 +3,7 @@
  * TGS Embed Image File Upload form
  * - Just a modified copy of the file/upload form
  *
- * @package TGSEmbedImage
+ * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
  * @copyright THINK Global School 2010
@@ -52,22 +52,22 @@ $submit_input = elgg_view('input/submit', array(
 	'value' => $submit_label
 ));
 
-$dropzone_desc = elgg_echo('embedimage:label:dropzone_desc');
-$upload_desc = elgg_echo('embedimage:label:upload_desc');
+$dropzone_desc = elgg_echo('tgsembed:label:dropzone_desc');
+$upload_desc = elgg_echo('tgsembed:label:upload_desc');
 
 $content = <<<HTML
-	<table class='embedimage-form-table'>
+	<table class='tgsembed-image-form-table'>
 		<tbody>
 			<tr>
-				<td class='embedimage-dropzone-container'>
+				<td class='tgsembed-image-dropzone-container'>
 					<h3>$dropzone_desc</h3>
-					<div class='embedimage-dropzone embedimage-dropzone-background'>
+					<div class='tgsembed-image-dropzone tgsembed-image-dropzone-background'>
 					</div>
 				</td>
-				<td class='embedimage-or-container'>
+				<td class='tgsembed-image-or-container'>
 					OR
 				</td>
-				<td class='embedimage-form-container'>
+				<td class='tgsembed-image-form-container'>
 					<h3>$upload_desc</h3>
 					<div>
 						<label>$file_label</label>
@@ -79,7 +79,7 @@ $content = <<<HTML
 						<label>$title_label</label>
 						$title_input
 					</div>
-					<div class='elgg-foot' id='embedimage-foot'>
+					<div class='elgg-foot' id='tgsembed-foot'>
 						$container_input
 						<br />
 						$submit_input
