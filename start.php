@@ -42,6 +42,9 @@ function tgsembed_init() {
 	elgg_register_simplecache_view('js/colorbox');
 	elgg_register_js('colorbox', $cb_js);
 
+	// Load Form JS
+	elgg_load_js('jquery.form');
+
 	// Register page handler
 	elgg_register_page_handler('tgsembed','tgsembed_page_handler');
 
