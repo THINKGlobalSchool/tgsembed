@@ -136,25 +136,22 @@ elgg.tgsembed.submit = function(event) {
 	// Show loader
 	$('#tgsembed-foot').addClass('elgg-ajax-loader');
 
-	// This is kind of gross, I should be setting the datatype and X-Requested-With
-	// But this is the only way to get the upload working in all 3 browsers
 	$(this).ajaxSubmit({
-		type	: 'POST',
-		//dataType : 'json',
-		//data     : { 'X-Requested-With' : 'XMLHttpRequest'},
+		//type	: 'POST',
+		dataType : 'json',
+		data     : { 'X-Requested-With' : 'XMLHttpRequest'},
 		success  : function(response) {
-			json_response = eval( "(" + response + ")" );
-			if (json_response) {
-				if (json_response.system_messages) {
-					elgg.register_error(json_response.system_messages.error);
-					elgg.system_message(json_response.system_messages.success);
+			if (response.output) {
+				if (response.output.system_messages) {
+					elgg.register_error(response.output.system_messages.error);
+					elgg.system_message(response.output.system_messages.success);
 				}
-				if (json_response.status >= 0) {
+				if (response.output.status >= 0) {
 					// Insert the image
-					elgg.tgsembed.insertImage(json_response.title, json_response.entity_url, json_response.icon_url);
+					elgg.tgsembed.insertImage(response.output.title, response.output.entity_url, response.output.icon_url);
 				} else {
 					// Close the box
-					$.colorbox.close()
+					$.colorbox.close();
 				}
 			}
 		}

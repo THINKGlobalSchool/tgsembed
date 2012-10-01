@@ -79,8 +79,10 @@ if (isset($upload['name']) && !empty($upload['name'])) {
 	$embedimage->close();
 	move_uploaded_file($upload['tmp_name'], $embedimage->getFilenameOnFilestore());
 
-	$guid = $embedimage->save();
-
+	$embedimage->save();
+	
+	$guid = $embedimage->guid;
+	
 	// Tidypics is installed (it has the settings we want) orient the image properly only if we're using IM
 	if (elgg_is_active_plugin('tidypics') && elgg_get_plugin_setting('image_lib', 'tidypics')) {
 		// Auto-orient the image
@@ -125,6 +127,7 @@ if (isset($upload['name']) && !empty($upload['name'])) {
 		}
 	}
 }
+
 
 // file saved so clear sticky form
 elgg_clear_sticky_form('tgsembed-image-form');
