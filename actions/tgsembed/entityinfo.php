@@ -26,12 +26,19 @@ if (elgg_instanceof($entity, 'object')) {
 		$title = $entity->guid;
 	}
 	
-	// Return entity details
-	echo json_encode(array(
+	$entity_info = array(
 		'entity_title' => $title,
 		'entity_guid' => $entity->guid,
 		'entity_url' => $entity->getURL(),
-	));
+	);
+	
+	if (elgg_instanceof($entity, 'object', 'image')) {
+		$entity_info['icon_url'] = elgg_get_site_url() . "photos/thumbnail/{$entity->guid}/large/";
+	}
+		
+	// Return entity details
+	echo json_encode($entity_info);
+
 	forward(REFERER);
 } else {
 	register_error(elgg_echo('tgsembed:error:invalidentity'));

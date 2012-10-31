@@ -65,6 +65,7 @@ function tgsembed_init() {
 	
 	// Register simpleicon menu items
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'tgsembed_setup_simpleicon_entity_menu');
+	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'photos_setup_simpleicon_entity_menu');
 	
 	// Register for pagesetup event
 	elgg_register_event_handler('pagesetup', 'system', 'tgsembed_pagesetup');
@@ -217,7 +218,7 @@ function tgsembed_setup_entity_menu($hook, $type, $return, $params) {
 }
 
 /**
- * Register items for the simpleicon entity menu
+ * Register 'insert link' item for the simpleicon entity menu
  *
  * @param sting  $hook   view
  * @param string $type   input/tags
@@ -240,6 +241,38 @@ function tgsembed_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 			'section' => 'info',
 		);
 		$return[] = ElggMenuItem::factory($options);
+	}
+	return $return;
+}
+
+/**
+ * Add 'embed photo' item for photo simpleicon entity menu
+ *
+ * @param sting  $hook   view
+ * @param string $type   input/tags
+ * @param mixed  $return  Value
+ * @param mixed  $params Params
+ *
+ * @return array
+ */
+function photos_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
+	if (get_input('embed_spot_content')) {
+		$entity = $params['entity'];
+		
+		if (elgg_instanceof($entity, 'object', 'image')) {
+			// Item to add object to portfolio
+			$options = array(
+				'name' => 'embed_photo',
+				'text' => elgg_echo('tgsembed:label:embedphoto'),
+				'title' => 'embed_photo',
+				'href' => "#{$entity->guid}",
+				'class' => 'tgsembed-embed-photo elgg-button elgg-button-action',
+				'section' => 'info',
+			);
+			
+			$return[] = ElggMenuItem::factory($options);
+			return $return;
+		}
 	}
 	return $return;
 }

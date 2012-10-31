@@ -23,8 +23,11 @@ elgg.tgsembed.init = function() {
 	// Form submit handler
 	$(document).delegate('#tgsembed-image-form', 'submit', elgg.tgsembed.submit);
 	
-	// Click handler for spot content click
+	// Click handler for 'insert link' spot content click
 	$(document).delegate('.tgsembed-add-spotcontent', 'click', elgg.tgsembed.spotContentClick);
+	
+	// Click handler for 'embed photo' click
+	$(document).delegate('.tgsembed-embed-photo', 'click', elgg.tgsembed.embedPhotoClick);
 
 	// Change handler for content subtype change
 	$(document).delegate('#tgsembed-spotcontent-subtype-selector', 'change', elgg.tgsembed.spotContentSubtypeChange);
@@ -175,7 +178,7 @@ elgg.tgsembed.menuclick = function(event) {
 	event.preventDefault();
 }
 
-// Click handler for spot content click
+// Click handler for 'insert link' click
 elgg.tgsembed.spotContentClick = function(event) {
 	if (!$(this).hasClass('disabled')) {
 		// href will be #{guid}
@@ -193,6 +196,34 @@ elgg.tgsembed.spotContentClick = function(event) {
 				if (data.status != -1) {
 					// Insert link to content
 					elgg.tgsembed.insertLink(data.output.entity_title, data.output.entity_url);
+				} else {
+					// Error
+					$_this.removeClass('disabled');
+				}
+			}
+		});
+	}
+	event.preventDefault();
+}
+
+// Click handler for 'embed photo' click
+elgg.tgsembed.embedPhotoClick = function(event) {
+	if (!$(this).hasClass('disabled')) {
+		// href will be #{guid}
+		var entity_guid = $(this).attr('href').substring(1);
+
+		$(this).addClass('disabled');
+
+		$_this = $(this);
+		
+		elgg.action('tgsembed/entityinfo', {
+			data: {
+				guid: entity_guid,
+			},
+			success: function(data) {
+				if (data.status != -1) {
+					// Insert link to content
+					elgg.tgsembed.insertImage(data.output.entity_title, data.output.entity_url, data.output.icon_url);
 				} else {
 					// Error
 					$_this.removeClass('disabled');
