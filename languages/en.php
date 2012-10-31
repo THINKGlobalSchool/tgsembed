@@ -28,6 +28,7 @@ $english = array(
 	'tgsembed:label:insertcontent' => 'Insert Content',
 	'tgsembed:label:instructions' => 'Copy and paste the embed code into the box below',
 	'tgsembed:label:insertlink' => 'Insert Link',
+	'tgsembed:label:embedphoto' => 'Embed Photo',
 
 	// River
 

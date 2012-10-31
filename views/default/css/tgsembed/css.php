@@ -108,7 +108,8 @@
 	width: 60%
 }
 
-.tgsembed-add-spotcontent {
+.tgsembed-add-spotcontent,
+.tgsembed-embed-photo {
 	font-size: 11px;
 }
 
