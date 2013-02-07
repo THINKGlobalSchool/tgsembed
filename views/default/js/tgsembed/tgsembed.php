@@ -247,3 +247,4 @@ elgg.tgsembed.spotContentSubtypeChange = function(event) {
 }
 
 elgg.register_hook_handler('init', 'system', elgg.tgsembed.init);
+elgg.register_hook_handler('photoLightboxAfterShow', 'tidypics', elgg.tgsembed.initLightbox);
