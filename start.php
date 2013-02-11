@@ -66,6 +66,9 @@ function tgsembed_init() {
 	// Register simpleicon menu items
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'tgsembed_setup_simpleicon_entity_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'photos_setup_simpleicon_entity_menu');
+
+	// Extend tidypics page handler
+	elgg_register_plugin_hook_handler('route', 'photos', 'tgsembed_route_photos_handler');
 	
 	// Register for pagesetup event
 	elgg_register_event_handler('pagesetup', 'system', 'tgsembed_pagesetup');
@@ -274,6 +277,22 @@ function photos_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 			return $return;
 		}
 	}
+	return $return;
+}
+
+/**
+ * Extend photos pagehandler to include tgsembed js
+ *
+ * @param string $hook
+ * @param string $type
+ * @param bool   $return
+ * @param array  $params
+ * @return mixed
+ */
+function tgsembed_route_photos_handler($hook, $type, $return, $params) {
+	elgg_load_js('colorbox');
+	elgg_load_js('jQuery-File-Upload');
+	elgg_load_js('elgg.tgsembed');
 	return $return;
 }
 
