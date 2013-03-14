@@ -108,8 +108,7 @@
 	width: 60%
 }
 
-.tgsembed-add-spotcontent,
-.tgsembed-embed-photo {
+#tgsembed-spotcontent-module ul.elgg-menu-simpleicon-entity li a {
 	font-size: 11px;
 }
 
