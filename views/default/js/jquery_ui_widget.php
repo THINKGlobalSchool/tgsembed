@@ -11,6 +11,6 @@
  */
 $js_path = elgg_get_config('path');
 
-$fileupload = "{$js_path}mod/tgsembed/vendors/jquery-file-upload/jquery.fileupload.js";
+$widget = "{$js_path}mod/tgsembed/vendors/jquery-file-upload/jquery.ui.widget.js";
 
-include $fileupload;
+include $widget;
