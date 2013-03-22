@@ -32,10 +32,20 @@ function tgsembed_init() {
 	elgg_register_simplecache_view('js/tgsembed/tgsembed');
 	elgg_register_js('elgg.tgsembed', $e_js);
 
+	// Register jquery ui widget (for jquery file upload)
+	$js = elgg_get_simplecache_url('js', 'jquery_ui_widget');
+	elgg_register_simplecache_view('js/jquery_ui_widget');
+	elgg_register_js('jquery.ui.widget', $js);
+
 	// Register JS for jquery file upload
 	$j_js = elgg_get_simplecache_url('js', 'jquery_file_upload');
 	elgg_register_simplecache_view('js/jquery_file_upload');
-	elgg_register_js('jQuery-File-Upload', $j_js);
+	elgg_register_js('jquery-file-upload', $j_js);
+
+	// Register JS for jquery.iframe-transport (for jquery file upload)
+	$j_js = elgg_get_simplecache_url('js', 'jquery_iframe_transport');
+	elgg_register_simplecache_view('js/jquery_iframe_transport');
+	elgg_register_js('jquery.iframe-transport', $j_js);
 	
 	// Register colorbox JS
 	$cb_js = elgg_get_simplecache_url('js', 'colorbox');
@@ -164,7 +174,9 @@ function tgsembed_longtext_menu($hook, $type, $items, $vars) {
 	));
 
 	elgg_load_js('colorbox');
-	elgg_load_js('jQuery-File-Upload');
+	elgg_load_js('jquery.ui.widget');
+	elgg_load_js('jquery-file-upload');
+	elgg_load_js('jquery.iframe-transport');
 	elgg_load_js('elgg.tgsembed');
 
 	return $items;
@@ -291,7 +303,9 @@ function photos_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
  */
 function tgsembed_route_photos_handler($hook, $type, $return, $params) {
 	elgg_load_js('colorbox');
-	elgg_load_js('jQuery-File-Upload');
+	elgg_load_js('jquery.ui.widget');
+	elgg_load_js('jquery-file-upload');
+	elgg_load_js('jquery.iframe-transport');
 	elgg_load_js('elgg.tgsembed');
 	return $return;
 }
