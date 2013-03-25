@@ -76,6 +76,7 @@ function tgsembed_init() {
 	// Register simpleicon menu items
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'tgsembed_setup_simpleicon_entity_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'photos_setup_simpleicon_entity_menu');
+	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'simplekaltura_setup_simpleicon_entity_menu');
 
 	// Extend tidypics page handler
 	elgg_register_plugin_hook_handler('route', 'photos', 'tgsembed_route_photos_handler');
@@ -88,6 +89,7 @@ function tgsembed_init() {
 	elgg_register_action('tgsembed/upload', "$action_base/upload.php");
 	elgg_register_action('tgsembed/delete', "$action_base/delete.php");
 	elgg_register_action('tgsembed/entityinfo', "$action_base/entityinfo.php");
+	elgg_register_action('tgsembed/embedvideo', "$action_base/embedvideo.php");
 
 	/** GENERIC EMBED **/
 	// Hook to add new type
@@ -283,6 +285,39 @@ function photos_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 				'href' => "#{$entity->guid}",
 				'class' => 'tgsembed-embed-photo elgg-button elgg-button-action',
 				'section' => 'info',
+			);
+			
+			$return[] = ElggMenuItem::factory($options);
+			return $return;
+		}
+	}
+	return $return;
+}
+
+/**
+ * Add 'embed video' item for video simpleicon entity menu
+ *
+ * @param sting  $hook   view
+ * @param string $type   input/tags
+ * @param mixed  $return  Value
+ * @param mixed  $params Params
+ *
+ * @return array
+ */
+function simplekaltura_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
+	if (get_input('embed_spot_content')) {
+		$entity = $params['entity'];
+		
+		if (elgg_instanceof($entity, 'object', 'simplekaltura_video')) {
+			// Item to add object to portfolio
+			$options = array(
+				'name' => 'embed_video',
+				'text' => elgg_echo('tgsembed:label:embedvideo'),
+				'title' => 'embed_video',
+				'href' => "#{$entity->guid}",
+				'class' => 'tgsembed-embed-video elgg-button elgg-button-action',
+				'section' => 'info',
+				'priority' => 1,
 			);
 			
 			$return[] = ElggMenuItem::factory($options);

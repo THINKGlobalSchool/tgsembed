@@ -29,6 +29,9 @@ elgg.tgsembed.init = function() {
 	// Click handler for 'embed photo' click
 	$(document).delegate('.tgsembed-embed-photo', 'click', elgg.tgsembed.embedPhotoClick);
 
+	// Click handler for 'embed video' click
+	$(document).delegate('.tgsembed-embed-video', 'click', elgg.tgsembed.embedVideoClick);
+
 	// Change handler for content subtype change
 	$(document).delegate('#tgsembed-spotcontent-subtype-selector', 'change', elgg.tgsembed.spotContentSubtypeChange);
 }
@@ -229,6 +232,35 @@ elgg.tgsembed.embedPhotoClick = function(event) {
 					$_this.removeClass('disabled');
 				}
 			}
+		});
+	}
+	event.preventDefault();
+}
+
+// Click handler for 'embed video' click
+elgg.tgsembed.embedVideoClick = function(event) {
+	if (!$(this).hasClass('disabled')) {
+		// href will be #{guid}
+		var entity_guid = $(this).attr('href').substring(1);
+
+		$(this).addClass('disabled');
+
+		$_this = $(this);
+
+		// Get embed
+		elgg.action('tgsembed/embedvideo', {
+			data: {
+				video_guid: entity_guid,
+				internal_embed: true,
+			}, 
+			success: function(data) {	
+				if (data.status != -1) {
+					elgg.tgsembed.insert(data.output);
+				} else {
+					// Error
+					$_this.removeClass('disabled');
+				}
+			},
 		});
 	}
 	event.preventDefault();
