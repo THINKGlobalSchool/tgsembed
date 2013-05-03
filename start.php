@@ -94,9 +94,6 @@ function tgsembed_init() {
 	/** GENERIC EMBED **/
 	// Hook to add new type
 	elgg_register_plugin_hook_handler('get_keywords', 'ecml', 'generic_embed_get_keywords');
-
-	// Temporary, parse bookmarks ecml until: https://github.com/Elgg/Elgg/pull/5347
-	elgg_register_plugin_hook_handler('get_views', 'ecml', 'bookmarks_ecml_views_hook');
 	
 	// Register Ajax Views
 	elgg_register_ajax_view('tgsembed/modules/spotcontent');
@@ -377,17 +374,4 @@ function generic_embed_get_keywords($hook, $type, $value, $params) {
  */
 function tgsembed_run_once() {
 	elgg_add_admin_notice('embed_rewrite_rule', "Warning: You need to add the following RewriteRule to Elgg's .htaccess, otherwise old embedded images will not work! <br /><br />RewriteRule ^mod/embedimage/(.*)   mod/tgsembed/$1");
-}
-
-/**
- * Return bookmarks views to parse for ecml
- *
- * @param string $hook
- * @param string $type
- * @param array  $return
- * @param array  $params
- */
-function bookmarks_ecml_views_hook($hook, $type, $return, $params) {
-	$return['object/bookmarks'] = elgg_echo('item:object:bookmarks');
-	return $return;
 }
