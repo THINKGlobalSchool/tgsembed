@@ -16,6 +16,7 @@ $title = get_input("title");
 $desc = get_input("description");
 $access_id = ACCESS_LOGGED_IN; // I think this is ok
 $container_guid = (int) get_input('container_guid', 0);
+
 $upload_type = get_input('type');
 
 if ($container_guid == 0) {
@@ -82,6 +83,8 @@ if (isset($upload['name']) && !empty($upload['name'])) {
 	$embedimage->save();
 	
 	$guid = $embedimage->guid;
+
+	$embed_image_size = get_input('embed_image_size', 'large');
 	
 	// Tidypics is installed (it has the settings we want) orient the image properly only if we're using IM
 	if (elgg_is_active_plugin('tidypics') && elgg_get_plugin_setting('image_lib', 'tidypics')) {
@@ -139,7 +142,7 @@ if ($guid) {
 		'system_messages' => array('success' => $message),
 		'title' => $embedimage->title,
 		'entity_url' => $embedimage->getURL(),
-		'icon_url' => $embedimage->getIconURL('large'),
+		'icon_url' => $embedimage->getIconURL($embed_image_size),
 	));
 } else {
 	// failed to save file object - nothing we can do about this
