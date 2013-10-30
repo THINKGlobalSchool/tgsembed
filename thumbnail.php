@@ -39,6 +39,15 @@ if ($simpletype == "image") {
 		case "medium":
 			$thumbfile = $file->smallthumb;
 			break;
+		case "master":
+			header("Pragma: public");
+			header("Content-type: $mime");
+			header("Content-Disposition: inline; filename=\"$filename\"");
+			ob_clean();
+			flush();
+			readfile($file->getFilenameOnFilestore());
+			exit;
+			break;
 		case "large":
 		default:
 			$thumbfile = $file->largethumb;

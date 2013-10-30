@@ -43,6 +43,16 @@ $title_input = elgg_view('input/text', array(
 	'value' => $title
 ));
 
+$embed_image_size_label = elgg_echo('tgsembed:label:imagesize');
+$embed_image_size_input = elgg_view('input/dropdown', array(
+	'name' => 'embed_image_size', 
+	'value' => 'large',
+	'options_values' => array(
+		'large' => elgg_echo('large'),
+		'master' => elgg_echo('master'),
+	)
+));
+
 $container_input = elgg_view('input/hidden', array(
 	'name' => 'container_guid', 
 	'value' => $container_guid
@@ -78,7 +88,10 @@ $content = <<<HTML
 					<div>
 						<label>$title_label</label>
 						$title_input
-					</div>
+					</div><br />
+					<div>
+						<label>$embed_image_size_label</label>
+						$embed_image_size_input
 					<div class='elgg-foot' id='tgsembed-foot'>
 						$container_input
 						<br />
