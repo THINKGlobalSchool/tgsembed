@@ -13,5 +13,23 @@
 // We're given the content encoded, so decode it and spit it out
 if (elgg_get_context() != 'search') {
 	header('X-XSS-Protection: 0');
-	echo urldecode($vars['embed']);
+
+	// Workaround for HTTP embeds on HTTPS enabled site
+	$decoded = urldecode($vars['embed']);
+
+	$search = array(
+		"http://prezi.com",
+		"http://padlet.com",
+		"http://player.vimeo.com",
+		"http://www.timetoast.com"
+	);
+
+	$replace = array(
+		"//prezi.com",
+		"//padlet.com",
+		"//player.vimeo.com",
+		"//www.timetoast.com"
+	);
+
+	echo str_replace($search, $replace, $decoded);
 } 
