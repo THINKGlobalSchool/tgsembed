@@ -168,3 +168,15 @@
         .cboxSlideshow_on #cboxSlideshow:hover{background-position:-100px -25px;}
         .cboxSlideshow_off #cboxSlideshow{background-position:-100px 0px; right:44px;}
         .cboxSlideshow_off #cboxSlideshow:hover{background-position:-75px -25px;}
+
+
+/* Colorbox tweaks */
+.tgsembed-colorbox #cboxClose {
+	background-position: -50px -2px;
+    border: 0 none;
+}
+
+.tgsembed-colorbox #cboxClose:hover {
+	background-position: -50px -27px;
+    border: 0 none;
+}
