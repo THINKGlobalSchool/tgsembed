@@ -23,7 +23,8 @@ if (elgg_get_context() != 'search') {
 		"http://player.vimeo.com",
 		"http://www.timetoast.com",
 		"http://www.kaltura.com",
-		"http://www.youtube.com"
+		"http://www.youtube.com",
+		"http://www.slideshare.net"
 	);
 
 	$replace = array(
@@ -33,6 +34,7 @@ if (elgg_get_context() != 'search') {
 		"//www.timetoast.com",
 		"//www.kaltura.com",
 		"//www.youtube.com",
+		"//www.slideshare.net"
 	);
 
 	echo str_replace($search, $replace, $decoded);
