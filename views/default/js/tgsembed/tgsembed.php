@@ -54,7 +54,8 @@ elgg.tgsembed.initLightbox = function() {
 		},
 		'onClosed' : function() {
 			$(this).addClass('cboxElement');
-		}
+		},
+		'className': 'tgsembed-colorbox'
 	});	
 }
 
