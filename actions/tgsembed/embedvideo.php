@@ -23,7 +23,7 @@ if (!elgg_instanceof($video, 'object', 'simplekaltura_video')) {
 		'entity' => $video, 
 		'width' => '725',
 		'height' => '540',
-	)) ."<a href='{$video->getURL()}'>{$view_video_label}</a>");
+	)) ."<br /><a href='{$video->getURL()}'>{$view_video_label}</a>");
 	echo "[generic embed={$encoded_content}]";
 }
 forward(REFERER);
