@@ -5,7 +5,7 @@
  * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
- * @copyright THINK Global School 2010
+ * @copyright THINK Global School 2010 - 2014
  * @link http://www.thinkglobalschool.com/
  * 
  */
@@ -55,6 +55,16 @@ function tgsembed_init() {
 	// Load Form JS
 	elgg_load_js('jquery.form');
 
+	// Load podcast JS/CSS if available
+	if (elgg_is_active_plugin('podcasts')) {
+		// Load JS
+		elgg_load_js('elgg.podcasts');
+		elgg_load_js('soundmanager2');
+
+		// Load CSS
+		elgg_load_css('elgg.podcasts');
+	}
+
 	// Register page handler
 	elgg_register_page_handler('tgsembed','tgsembed_page_handler');
 
@@ -77,6 +87,7 @@ function tgsembed_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'tgsembed_setup_simpleicon_entity_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'photos_setup_simpleicon_entity_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'simplekaltura_setup_simpleicon_entity_menu');
+	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'podcasts_setup_simpleicon_entity_menu');
 
 	// Extend tidypics page handler
 	elgg_register_plugin_hook_handler('route', 'photos', 'tgsembed_route_photos_handler');
@@ -90,6 +101,7 @@ function tgsembed_init() {
 	elgg_register_action('tgsembed/delete', "$action_base/delete.php");
 	elgg_register_action('tgsembed/entityinfo', "$action_base/entityinfo.php");
 	elgg_register_action('tgsembed/embedvideo', "$action_base/embedvideo.php");
+	elgg_register_action('tgsembed/embedpodcast', "$action_base/embedpodcast.php");
 
 	/** GENERIC EMBED **/
 	// Hook to add new type
@@ -326,6 +338,40 @@ function simplekaltura_setup_simpleicon_entity_menu($hook, $type, $return, $para
 	}
 	return $return;
 }
+
+/**
+ * Add 'embed podcast' item for podcast simpleicon entity menu
+ *
+ * @param sting  $hook   view
+ * @param string $type   input/tags
+ * @param mixed  $return  Value
+ * @param mixed  $params Params
+ *
+ * @return array
+ */
+function podcasts_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
+	if (get_input('embed_spot_content')) {
+		$entity = $params['entity'];
+		
+		if (elgg_instanceof($entity, 'object', 'podcast')) {
+			// Item to add object to portfolio
+			$options = array(
+				'name' => 'embed_podcast',
+				'text' => elgg_echo('tgsembed:label:embedpodcast'),
+				'title' => 'embed_podcast',
+				'href' => "#{$entity->guid}",
+				'class' => 'tgsembed-embed-podcast elgg-button elgg-button-action',
+				'section' => 'info',
+				'priority' => 1,
+			);
+			
+			$return[] = ElggMenuItem::factory($options);
+			return $return;
+		}
+	}
+	return $return;
+}
+
 
 /**
  * Extend photos pagehandler to include tgsembed js

@@ -5,7 +5,7 @@
  * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
- * @copyright THINK Global School 2010
+ * @copyright THINK Global School 2010 - 2014
  * @link http://www.thinkglobalschool.com/
  * 
  */
@@ -31,6 +31,9 @@ elgg.tgsembed.init = function() {
 
 	// Click handler for 'embed video' click
 	$(document).delegate('.tgsembed-embed-video', 'click', elgg.tgsembed.embedVideoClick);
+
+	// Click handler for 'embed video' click
+	$(document).delegate('.tgsembed-embed-podcast', 'click', elgg.tgsembed.embedPodcastClick);
 
 	// Change handler for content subtype change
 	$(document).delegate('#tgsembed-spotcontent-subtype-selector', 'change', elgg.tgsembed.spotContentSubtypeChange);
@@ -252,6 +255,35 @@ elgg.tgsembed.embedVideoClick = function(event) {
 		elgg.action('tgsembed/embedvideo', {
 			data: {
 				video_guid: entity_guid,
+				internal_embed: true,
+			}, 
+			success: function(data) {	
+				if (data.status != -1) {
+					elgg.tgsembed.insert(data.output);
+				} else {
+					// Error
+					$_this.removeClass('disabled');
+				}
+			},
+		});
+	}
+	event.preventDefault();
+}
+
+// Click handler for 'embed podcast' click
+elgg.tgsembed.embedPodcastClick = function(event) {
+	if (!$(this).hasClass('disabled')) {
+		// href will be #{guid}
+		var entity_guid = $(this).attr('href').substring(1);
+
+		$(this).addClass('disabled');
+
+		$_this = $(this);
+
+		// Get embed
+		elgg.action('tgsembed/embedpodcast', {
+			data: {
+				podcast_guid: entity_guid,
 				internal_embed: true,
 			}, 
 			success: function(data) {	

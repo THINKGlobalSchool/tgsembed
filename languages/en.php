@@ -30,6 +30,7 @@ $english = array(
 	'tgsembed:label:insertlink' => 'Insert Link',
 	'tgsembed:label:embedphoto' => 'Embed Photo',
 	'tgsembed:label:embedvideo' => 'Embed Video',
+	'tgsembed:label:embedpodcast' => 'Embed Podcast',
 	'tgsembed:label:imagesize' => 'Embed image size',
 
 	// River
