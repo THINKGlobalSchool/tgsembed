@@ -12,7 +12,7 @@
 
 $guid = get_input('podcast_guid');
 
-$podcast = get_entity($guid);
+$podcast = new ElggPodcast($guid);
 
 if (!elgg_instanceof($podcast, 'object', 'podcast')) {
 	register_error(elgg_echo('podcasts:invaldepisode'));

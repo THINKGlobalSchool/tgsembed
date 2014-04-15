@@ -353,11 +353,20 @@ function podcasts_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 	if (get_input('embed_spot_content')) {
 		$entity = $params['entity'];
 		
-		if (elgg_instanceof($entity, 'object', 'podcast')) {
+		if (elgg_instanceof($entity, 'object', 'podcast') || elgg_instanceof($entity, 'object', 'file')) {
+			
+			if (elgg_instanceof($entity, 'object', 'file')) {
+				elgg_load_library('elgg:podcasts');
+				$mimetype = podcasts_get_mime_type($entity->getFilenameOnFilestore());
+				if (!ElggPodcast::checkValidMimeType($mimetype)) {
+					return $return;
+				}
+			}
+
 			// Item to add object to portfolio
 			$options = array(
 				'name' => 'embed_podcast',
-				'text' => elgg_echo('tgsembed:label:embedpodcast'),
+				'text' => elgg_echo('tgsembed:label:embed' . $entity->getSubtype()),
 				'title' => 'embed_podcast',
 				'href' => "#{$entity->guid}",
 				'class' => 'tgsembed-embed-podcast elgg-button elgg-button-action',
