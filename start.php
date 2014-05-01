@@ -105,8 +105,8 @@ function tgsembed_init() {
 
 	/** GENERIC EMBED **/
 	// Hook to add new type
-	elgg_register_plugin_hook_handler('get_keywords', 'ecml', 'generic_embed_get_keywords');
-	
+	elgg_register_plugin_hook_handler('render:generic', 'ecml', 'generic_embed_render');
+
 	// Register Ajax Views
 	elgg_register_ajax_view('tgsembed/modules/spotcontent');
 	
@@ -402,7 +402,7 @@ function tgsembed_route_photos_handler($hook, $type, $return, $params) {
 
 /** GENERIC EMBED **/
 /**
- * Plugin hook to add new 'generic' ECML keyword (won't work on its own..)
+ * Plugin hook to add render 'generic' ECML keyword
  *
  * @param $hook
  * @param $type
@@ -410,18 +410,8 @@ function tgsembed_route_photos_handler($hook, $type, $return, $params) {
  * @param $params
  * @return mixed $value
  */
-function generic_embed_get_keywords($hook, $type, $value, $params) {
-	$value['generic'] = array(
-		'name' => 'Generic Embed',
-		'view' => "ecml/keywords/generic",
-		'description' => 'Embed Generic Code',
-		'usage' => 'Only usable from the embed interface',
-		'type' => 'generic',
-		'params' => array('embed'), // a list of supported params
-		'embed_format' => 'embed="%s"' // a sprintf string of the require param format. Added automatically to [keyword $here]
-	);
-
-	return $value;
+function generic_embed_render($hook, $type, $value, $params) {
+	return elgg_view('ecml/keywords/generic', $params['attributes']);
 }
 
 /**
