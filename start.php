@@ -71,6 +71,9 @@ function tgsembed_init() {
 	// For legacy images
 	elgg_register_page_handler('embedimage','tgsembed_page_handler');
 
+	// ecml validator for embed
+	elgg_register_page_handler('ecml_generate_generic', 'ecml_generic_page_handler');
+
 	// Register URL handler
 	elgg_register_entity_url_handler('object', 'embedimage', 'tgsembed_url');
 
@@ -150,6 +153,38 @@ function tgsembed_page_handler($page) {
 	}
 
 	return TRUE;
+}
+
+/**
+ * Generate ECML given a URL or embed link and service.
+ * Doesn't check if the resource actually exists.
+ * Outputs JSON.
+ *
+ * @param unknown_type $page
+ */
+function ecml_generic_page_handler($page) {
+	$service = trim(get_input('service'));
+	$resource = trim(get_input('resource'));
+
+
+	if (!$service || !$resource) {
+		echo json_encode(array(
+			'status' => 'error',
+			'message' => elgg_echo('ecml:embed:invalid_web_service_keyword')
+		));
+
+		exit;
+	}
+
+	// @todo pull this out into a function.  allow optional arguments.
+	$ecml = "[$service " . sprintf('embed="%s"', $resource) . ']';
+	$result = array(
+		'status' => 'success',
+		'ecml' => $ecml
+	);
+
+	echo json_encode($result);
+	exit;
 }
 
 /**

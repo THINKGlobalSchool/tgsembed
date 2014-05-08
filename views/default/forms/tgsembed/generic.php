@@ -50,7 +50,7 @@ echo $content;
 		// counter for paused input to try to validate/generate a preview.
 		var rest_timeout_id = null;
 		var rest_min_time = 750;
-		var embed_generate_ecml_url = '<?php echo $vars['url']; ?>ecml_generate';
+		var embed_generate_ecml_url = '<?php echo $vars['url']; ?>ecml_generate_generic';
 		var embed_ecml_keyword_help_url = '<?php echo $vars['url']; ?>ecml/';
 
 		var web_services_ecml_update = function() {
@@ -99,7 +99,6 @@ echo $content;
 			$.post(embed_generate_ecml_url, post_data, function(data) {
 				if (data.status == 'success') {
 					// show previews and update embed code.
-					$('#ecml_preview').html(data.html);
 					$('#ecml_code').html(data.ecml);
 					$('body').data('elgg_embed_ecml', data.ecml);
 					$('.embed_content_section.preview').removeClass('hidden'); // reveal preview link/panel
