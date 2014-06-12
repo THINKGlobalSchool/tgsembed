@@ -38,6 +38,8 @@ HTML;
 
 echo $content;
 
+$url = elgg_get_site_url();
+
 ?>
 <script type="text/javascript">
 	$(function() {
@@ -50,8 +52,8 @@ echo $content;
 		// counter for paused input to try to validate/generate a preview.
 		var rest_timeout_id = null;
 		var rest_min_time = 750;
-		var embed_generate_ecml_url = '<?php echo $vars['url']; ?>ecml_generate_generic';
-		var embed_ecml_keyword_help_url = '<?php echo $vars['url']; ?>ecml/';
+		var embed_generate_ecml_url = '<?php echo $url; ?>ecml_generate_generic';
+		var embed_ecml_keyword_help_url = '<?php echo $url; ?>ecml/';
 
 		var web_services_ecml_update = function() {
 			if (rest_timeout_id) {

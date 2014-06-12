@@ -311,5 +311,9 @@ elgg.tgsembed.spotContentSubtypeChange = function(event) {
 	event.preventDefault();
 }
 
-elgg.register_hook_handler('init', 'system', elgg.tgsembed.init);
-elgg.register_hook_handler('photoLightboxAfterShow', 'tidypics', elgg.tgsembed.initLightbox);
+// Require fileupload 
+require(['jquery.iframe-transport', 'jquery.fileupload'], function() {
+	// Register hooks
+	elgg.register_hook_handler('init', 'system', elgg.tgsembed.init);
+	elgg.register_hook_handler('photoLightboxAfterShow', 'tidypics', elgg.tgsembed.initLightbox);
+});

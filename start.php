@@ -18,39 +18,12 @@ function tgsembed_init() {
 	elgg_register_library('tgsembed', elgg_get_plugins_path() . 'tgsembed/lib/tgsembed.php');
 	elgg_load_library('tgsembed');
 
-	// Register simplecache view for jQuery File Upload
-	elgg_register_simplecache_view('js/jquery_file_upload');
-
-	// Register CSS
-	$e_css = elgg_get_simplecache_url('css', 'tgsembed/css');
-	elgg_register_simplecache_view('css/tgsembed/css');
-	elgg_register_css('elgg.tgsembed', $e_css);
-	elgg_load_css('elgg.tgsembed');
+	// Extend CSS
+	elgg_extend_view('css/elgg', 'css/tgsembed/css');
 
 	// Register JS libraries
 	$e_js = elgg_get_simplecache_url('js', 'tgsembed/tgsembed');
-	elgg_register_simplecache_view('js/tgsembed/tgsembed');
 	elgg_register_js('elgg.tgsembed', $e_js);
-
-	// Register jquery ui widget (for jquery file upload)
-	$js = elgg_get_simplecache_url('js', 'jquery_ui_widget');
-	elgg_register_simplecache_view('js/jquery_ui_widget');
-	elgg_register_js('jquery.ui.widget', $js);
-
-	// Register JS for jquery file upload
-	$j_js = elgg_get_simplecache_url('js', 'jquery_file_upload');
-	elgg_register_simplecache_view('js/jquery_file_upload');
-	elgg_register_js('jquery-file-upload', $j_js);
-
-	// Register JS for jquery.iframe-transport (for jquery file upload)
-	$j_js = elgg_get_simplecache_url('js', 'jquery_iframe_transport');
-	elgg_register_simplecache_view('js/jquery_iframe_transport');
-	elgg_register_js('jquery.iframe-transport', $j_js);
-	
-	// Register colorbox JS
-	$cb_js = elgg_get_simplecache_url('js', 'colorbox');
-	elgg_register_simplecache_view('js/colorbox');
-	elgg_register_js('colorbox', $cb_js);
 
 	// Load Form JS
 	elgg_load_js('jquery.form');
@@ -219,13 +192,8 @@ function tgsembed_longtext_menu($hook, $type, $items, $vars) {
 		'text' => elgg_echo('tgsembed:label:insertcontent'),
 		'link_class' => "elgg-longtext-control tgsembed-control tgsembed-control-{$vars['id']}",
 		'priority' => 10,
-		'title' => elgg_view_title(elgg_echo('tgsembed:label:insertcontent')),
 	));
 
-	elgg_load_js('colorbox');
-	elgg_load_js('jquery.ui.widget');
-	elgg_load_js('jquery-file-upload');
-	elgg_load_js('jquery.iframe-transport');
 	elgg_load_js('elgg.tgsembed');
 
 	return $items;
@@ -427,8 +395,6 @@ function podcasts_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
  * @return mixed
  */
 function tgsembed_route_photos_handler($hook, $type, $return, $params) {
-	elgg_load_js('colorbox');
-	elgg_load_js('jquery.ui.widget');
 	elgg_load_js('jquery-file-upload');
 	elgg_load_js('jquery.iframe-transport');
 	elgg_load_js('elgg.tgsembed');

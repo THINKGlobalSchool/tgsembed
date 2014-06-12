@@ -24,6 +24,8 @@ $params = array(
 	'href' => FALSE,
 );
 
+echo elgg_view_title(elgg_echo('tgsembed:label:insertcontent'));
+
 elgg_register_menu_item('tgsembed-popup-menu', array(
 	'name' => 'tgsembed-image',
 	'text' => elgg_echo('tgsembed:label:embedimage'),
