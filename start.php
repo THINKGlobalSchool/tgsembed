@@ -362,7 +362,7 @@ function simplekaltura_setup_simpleicon_entity_menu($hook, $type, $return, $para
 				'text' => elgg_echo('tgsembed:label:embedvideo'),
 				'title' => 'embed_video',
 				'href' => "#{$entity->guid}",
-				'class' => 'tgsembed-embed-video elgg-button elgg-button-action',
+				'class' => 'tgsembed-embed-video-initial elgg-button elgg-button-action',
 				'section' => 'info',
 				'priority' => 1,
 			);
