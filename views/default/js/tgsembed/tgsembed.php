@@ -30,7 +30,10 @@ elgg.tgsembed.init = function() {
 	$(document).delegate('.tgsembed-embed-photo', 'click', elgg.tgsembed.embedPhotoClick);
 
 	// Click handler for 'embed video' click
-	$(document).delegate('.tgsembed-embed-video', 'click', elgg.tgsembed.embedVideoClick);
+	$(document).delegate('.tgsembed-embed-video-initial', 'click', elgg.tgsembed.embedVideoInitialClick);
+
+	// Click handler for 'embed' click (second stage of video embed)
+	$(document).delegate('.tgsembed-embed-video-final', 'click', elgg.tgsembed.embedVideoFinalClick);
 
 	// Click handler for 'embed video' click
 	$(document).delegate('.tgsembed-embed-podcast', 'click', elgg.tgsembed.embedPodcastClick);
@@ -242,7 +245,57 @@ elgg.tgsembed.embedPhotoClick = function(event) {
 }
 
 // Click handler for 'embed video' click
-elgg.tgsembed.embedVideoClick = function(event) {
+elgg.tgsembed.embedVideoInitialClick = function(event) {
+	if (!$(this).hasClass('disabled')) {
+		// href will be #{guid}
+		var entity_guid = $(this).attr('href').substring(1);
+
+		$(this).addClass('disabled');
+
+		$_this = $(this).clone()
+			.removeClass('disabled')
+			.removeClass('tgsembed-embed-video-initial')
+			.addClass('tgsembed-embed-video-final');
+
+		$(this).replaceWith($_this);
+
+		var $dim_container = $(document.createElement('div')).addClass('tgsembed-video-dimensions');
+
+		var $h = $(document.createElement('span'))
+			.html('height:');
+		$h.appendTo($dim_container);
+
+		var $h_input = $(document.createElement('input'))
+			.attr('type', 'text')
+			.val('540')
+			.attr('maxlength', 4)
+			.addClass('video-height')
+		$h_input.appendTo($dim_container);
+
+		var $w = $(document.createElement('span'))
+			.html('width:');
+		$w.appendTo($dim_container);
+
+		var $w_input = $(document.createElement('input'))
+			.attr('type', 'text')
+			.val('725')
+			.attr('maxlength', 4)
+			.addClass('video-width')
+		$w_input.appendTo($dim_container);
+
+		$menu_item = $(document.createElement('li'))
+			.addClass('elgg-menu-item-embed-video-dimensions');
+
+		$dim_container.appendTo($menu_item);
+
+		$_this.closest('ul.elgg-menu').prepend($menu_item);
+
+	}
+	event.preventDefault();
+}
+
+// Click handler for 'embed video' click
+elgg.tgsembed.embedVideoFinalClick = function(event) {
 	if (!$(this).hasClass('disabled')) {
 		// href will be #{guid}
 		var entity_guid = $(this).attr('href').substring(1);
@@ -251,11 +304,17 @@ elgg.tgsembed.embedVideoClick = function(event) {
 
 		$_this = $(this);
 
+		// Get height and width
+		var height = $_this.closest('ul.elgg-menu').find('.elgg-menu-item-embed-video-dimensions input.video-height').val();
+		var width = $_this.closest('ul.elgg-menu').find('.elgg-menu-item-embed-video-dimensions input.video-width').val();
+
 		// Get embed
 		elgg.action('tgsembed/embedvideo', {
 			data: {
 				video_guid: entity_guid,
 				internal_embed: true,
+				video_height: height,
+				video_width: width
 			}, 
 			success: function(data) {	
 				if (data.status != -1) {
