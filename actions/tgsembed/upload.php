@@ -84,7 +84,7 @@ if (isset($upload['name']) && !empty($upload['name'])) {
 	
 	$guid = $embedimage->guid;
 
-	$embed_image_size = get_input('embed_image_size', 'large');
+	$embed_image_size = get_input('embed_image_size', 'master');
 	
 	// Tidypics is installed (it has the settings we want) orient the image properly only if we're using IM
 	if (elgg_is_active_plugin('tidypics') && elgg_get_plugin_setting('image_lib', 'tidypics')) {
@@ -137,6 +137,7 @@ elgg_clear_sticky_form('tgsembed-image-form');
 
 if ($guid) {
 	$message = elgg_echo("tgsembed:success:save");
+	error_log($embed_image_size);
 	echo json_encode(array(
 		'status' => 0, 
 		'system_messages' => array('success' => $message),

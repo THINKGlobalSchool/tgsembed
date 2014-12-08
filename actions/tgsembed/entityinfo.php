@@ -33,7 +33,7 @@ if (elgg_instanceof($entity, 'object')) {
 	);
 	
 	if (elgg_instanceof($entity, 'object', 'image')) {
-		$entity_info['icon_url'] = elgg_get_site_url() . "photos/thumbnail/{$entity->guid}/large/";
+		$entity_info['icon_url'] = elgg_get_site_url() . "photos/thumbnail/{$entity->guid}/master/";
 	}
 		
 	// Return entity details
