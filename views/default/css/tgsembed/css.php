@@ -106,6 +106,20 @@
 	width: 60%
 }
 
+.tgsembed-video-dimensions {
+	display: inline-block;
+}
+
+.tgsembed-video-dimensions input {
+	width: 40px;
+	display: inline-block;
+}
+
+.tgsembed-video-dimensions span {
+	display: inline-block;
+	padding: 0 1px 0 3px;
+}
+
 #tgsembed-spotcontent-module ul.elgg-menu-simpleicon-entity li a {
 	font-size: 11px;
 }

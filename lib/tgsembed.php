@@ -118,3 +118,12 @@ function tgsembed_get_embeddable_dropdown() {
 	}
 	return $options;
 }
+
+/**
+ * Helper function to remove all references of 'generic embed' from a string
+ */
+function tgsembed_filter_generic($string) {
+	$text = preg_replace('/\[generic[^\]]*\]/', '', $string);
+	$text = str_replace('[generic...', '', $text);
+	return $text;
+}

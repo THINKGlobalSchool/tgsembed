@@ -58,6 +58,9 @@ function tgsembed_init() {
 
 	// Item entity menu hook
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'tgsembed_setup_entity_menu', 999);
+
+	// Register some views for ecml parsing
+	elgg_register_plugin_hook_handler('get_views', 'ecml', 'generic_embed_ecml_views_hook');
 	
 	// Register simpleicon menu items
 	elgg_register_plugin_hook_handler('register', 'menu:simpleicon-entity', 'tgsembed_setup_simpleicon_entity_menu');
@@ -67,6 +70,16 @@ function tgsembed_init() {
 
 	// Extend tidypics page handler
 	elgg_register_plugin_hook_handler('route', 'photos', 'tgsembed_route_photos_handler');
+
+	// get list of views to filter for generic embed ecml
+	$default_views = array(
+		'river/elements/body' => 'River Body',
+	);
+	$views = elgg_trigger_plugin_hook('get_generic_filter_views', 'ecml', null, $default_views);
+
+	foreach ($views as $view => $desc) {
+		elgg_register_plugin_hook_handler('view', $view, 'tgsembed_generic_filter_hook', 499);
+	}
 	
 	// Register for pagesetup event
 	elgg_register_event_handler('pagesetup', 'system', 'tgsembed_pagesetup');
@@ -330,7 +343,7 @@ function simplekaltura_setup_simpleicon_entity_menu($hook, $type, $return, $para
 				'text' => elgg_echo('tgsembed:label:embedvideo'),
 				'title' => 'embed_video',
 				'href' => "#{$entity->guid}",
-				'class' => 'tgsembed-embed-video elgg-button elgg-button-action',
+				'class' => 'tgsembed-embed-video-initial elgg-button elgg-button-action',
 				'section' => 'info',
 				'priority' => 1,
 			);
@@ -413,6 +426,13 @@ function tgsembed_route_photos_handler($hook, $type, $return, $params) {
  */
 function generic_embed_render($hook, $type, $value, $params) {
 	return elgg_view('ecml/keywords/generic', $params['attributes']);
+}
+
+/**
+ * Parse ECML on group profiles
+ */
+function tgsembed_generic_filter_hook($hook, $type, $return, $params) {
+	return tgsembed_filter_generic($return);
 }
 
 /**
