@@ -3,22 +3,22 @@
 	<name>TGS Embed</name>
 	<id>tgsembed</id>
 	<author>Jeff Tilson</author>
-	<version>1.9</version>
+	<version>1.10</version>
 	<category>enhancement</category>
 	<category>tgs</category>
 	<blurb>TGS Embed</blurb>
 	<description>Allows easy embedding of images and other content in text editors</description>
 	<website>http://www.thinkglobalschool.org/</website>
-	<copyright>THINK Global School 2010 - 2014</copyright>
+	<copyright>THINK Global School 2010 - 2015</copyright>
 	<license>GNU Public License version 2</license>
 	<requires>
 		<type>elgg_release</type>
-		<version>1.9</version>
+		<version>1.10</version>
 	</requires>
 	<requires>
 		<type>plugin</type>
 		<name>file</name>
-		<version>1.9</version>
+		<version>1.10</version>
 		<comparison>ge</comparison>
 	</requires>
 	<requires>
@@ -30,13 +30,13 @@
 	<requires>
 		<type>plugin</type>
 		<name>modules</name>
-		<version>1.9</version>
+		<version>1.10</version>
 		<comparison>ge</comparison>
 	</requires>
 	<requires>
 		<type>plugin</type>
 		<name>jqueryfileupload</name>
-		<version>1.9</version>
+		<version>1.10</version>
 		<comparison>ge</comparison>
 	</requires>
 	<activate_on_install>true</activate_on_install>

@@ -48,7 +48,7 @@ function tgsembed_init() {
 	elgg_register_page_handler('ecml_generate_generic', 'ecml_generic_page_handler');
 
 	// Register URL handler
-	elgg_register_entity_url_handler('object', 'embedimage', 'tgsembed_url');
+	elgg_register_plugin_hook_handler('entity:url', 'object', 'tgsembed_url');
 
 	// Hook into longtext menu
 	elgg_register_plugin_hook_handler('register', 'menu:longtext', 'tgsembed_longtext_menu');
@@ -174,15 +174,23 @@ function ecml_generic_page_handler($page) {
 }
 
 /**
- * Populates the ->getUrl() method for embedimage entities
+ * Returns the URL from an embedded image entity
  *
- * @param ElggObject entity
- * @return string request url
+ * @param string $hook   'entity:url'
+ * @param string $type   'object'
+ * @param string $url    The current URL
+ * @param array  $params Hook parameters
+ * @return string
  */
-function tgsembed_url($entity) {
-	$title = $entity->title;
-	$title = elgg_get_friendly_title($title);
-	return "tgsembed/view/" . $entity->getGUID() . "/" . $title;
+function tgsembed_url($hook, $type, $url, $params) {
+	$entity = $params['entity'];
+
+	// Check that the entity is an embedded image object
+	if (!elgg_instanceof($entity, 'object', 'embedimage')) {
+		return;
+	}
+	$title = elgg_get_friendly_title($entity->title);
+	return "tgsembed/view/{$entity->guid}/{$title}";
 }
 
 /**
