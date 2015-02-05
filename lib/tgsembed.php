@@ -5,7 +5,7 @@
  * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
- * @copyright THINK Global School 2010
+ * @copyright THINK Global School 2010 - 2015
  * @link http://www.thinkglobalschool.com/
  * 
  */
@@ -51,7 +51,7 @@ function tgsembed_get_page_content_view($guid) {
 	if (!elgg_is_logged_in()) {
 		forward(REFERER);
 	}
-	$embedimage = new ElggFile($guid);
+	$embedimage = get_entity($guid);
 
 	$owner = get_entity($embedimage->owner_guid);
 

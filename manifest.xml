@@ -18,7 +18,7 @@
 	<requires>
 		<type>plugin</type>
 		<name>file</name>
-		<version>1.10</version>
+		<version>1.9</version>
 		<comparison>ge</comparison>
 	</requires>
 	<requires>

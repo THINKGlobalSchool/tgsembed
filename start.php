@@ -5,7 +5,7 @@
  * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
- * @copyright THINK Global School 2010 - 2014
+ * @copyright THINK Global School 2010 - 2015
  * @link http://www.thinkglobalschool.com/
  * 
  */
@@ -24,9 +24,6 @@ function tgsembed_init() {
 	// Register JS libraries
 	$e_js = elgg_get_simplecache_url('js', 'tgsembed/tgsembed');
 	elgg_register_js('elgg.tgsembed', $e_js);
-
-	// Load Form JS
-	elgg_load_js('jquery.form');
 
 	// Load podcast JS/CSS if available
 	if (elgg_is_active_plugin('podcasts')) {
@@ -100,7 +97,7 @@ function tgsembed_init() {
 	elgg_register_ajax_view('tgsembed/modules/spotcontent');
 	
 	// Run once
-	run_function_once("tgsembed_run_once");
+	run_function_once("tgsembed_run_onces");
 
 	return TRUE;
 }
@@ -290,7 +287,7 @@ function tgsembed_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 			'text' => elgg_echo('tgsembed:label:insertlink'),
 			'title' => 'link_content',
 			'href' => "#{$entity->guid}",
-			'class' => 'tgsembed-add-spotcontent elgg-button elgg-button-action',
+			'link_class' => 'tgsembed-add-spotcontent elgg-button elgg-button-action',
 			'section' => 'info',
 		);
 		$return[] = ElggMenuItem::factory($options);
@@ -319,7 +316,7 @@ function photos_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 				'text' => elgg_echo('tgsembed:label:embedphoto'),
 				'title' => 'embed_photo',
 				'href' => "#{$entity->guid}",
-				'class' => 'tgsembed-embed-photo elgg-button elgg-button-action',
+				'link_class' => 'tgsembed-embed-photo elgg-button elgg-button-action',
 				'section' => 'info',
 			);
 			
@@ -393,7 +390,7 @@ function podcasts_setup_simpleicon_entity_menu($hook, $type, $return, $params) {
 				'text' => elgg_echo('tgsembed:label:embed' . $entity->getSubtype()),
 				'title' => 'embed_podcast',
 				'href' => "#{$entity->guid}",
-				'class' => 'tgsembed-embed-podcast elgg-button elgg-button-action',
+				'link_class' => 'tgsembed-embed-podcast elgg-button elgg-button-action',
 				'section' => 'info',
 				'priority' => 1,
 			);
@@ -442,10 +439,11 @@ function generic_embed_render($hook, $type, $value, $params) {
 function tgsembed_generic_filter_hook($hook, $type, $return, $params) {
 	return tgsembed_filter_generic($return);
 }
-
+add_subtype("object", "embedimage", "FilePluginFile");
 /**
  * Only run this once
  */
-function tgsembed_run_once() {
+function tgsembed_run_onces() {
+	add_subtype("object", "embedimage", "FilePluginFile");
 	elgg_add_admin_notice('embed_rewrite_rule', "Warning: You need to add the following RewriteRule to Elgg's .htaccess, otherwise old embedded images will not work! <br /><br />RewriteRule ^mod/embedimage/(.*)   mod/tgsembed/$1");
 }

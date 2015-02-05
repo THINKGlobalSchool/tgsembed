@@ -5,7 +5,7 @@
  * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
- * @copyright THINK Global School 2010 - 2014
+ * @copyright THINK Global School 2010 - 2015
  * @link http://www.thinkglobalschool.com/
  * 
  */
@@ -18,28 +18,28 @@ elgg.tgsembed.init = function() {
 	elgg.tgsembed.initLightbox();
 
 	// Make tgsembed popup tabs clickable
-	$(document).delegate('.tgsembed-menu-item', 'click', elgg.tgsembed.menuclick);
+	$(document).on('click', '.tgsembed-menu-item', elgg.tgsembed.menuclick);
 
 	// Form submit handler
-	$(document).delegate('#tgsembed-image-form', 'submit', elgg.tgsembed.submit);
+	$(document).on('submit', '#tgsembed-image-form', elgg.tgsembed.submit);
 	
 	// Click handler for 'insert link' spot content click
-	$(document).delegate('.tgsembed-add-spotcontent', 'click', elgg.tgsembed.spotContentClick);
+	$(document).on('click', '.tgsembed-add-spotcontent', elgg.tgsembed.spotContentClick);
 	
 	// Click handler for 'embed photo' click
-	$(document).delegate('.tgsembed-embed-photo', 'click', elgg.tgsembed.embedPhotoClick);
+	$(document).on('click', '.tgsembed-embed-photo', elgg.tgsembed.embedPhotoClick);
 
 	// Click handler for 'embed video' click
-	$(document).delegate('.tgsembed-embed-video-initial', 'click', elgg.tgsembed.embedVideoInitialClick);
+	$(document).on('click', '.tgsembed-embed-video-initial', elgg.tgsembed.embedVideoInitialClick);
 
 	// Click handler for 'embed' click (second stage of video embed)
-	$(document).delegate('.tgsembed-embed-video-final', 'click', elgg.tgsembed.embedVideoFinalClick);
+	$(document).on('click', '.tgsembed-embed-video-final', elgg.tgsembed.embedVideoFinalClick);
 
 	// Click handler for 'embed video' click
-	$(document).delegate('.tgsembed-embed-podcast', 'click', elgg.tgsembed.embedPodcastClick);
+	$(document).on('click', '.tgsembed-embed-podcast', elgg.tgsembed.embedPodcastClick);
 
 	// Change handler for content subtype change
-	$(document).delegate('#tgsembed-spotcontent-subtype-selector', 'change', elgg.tgsembed.spotContentSubtypeChange);
+	$(document).on('change', '#tgsembed-spotcontent-subtype-selector', elgg.tgsembed.spotContentSubtypeChange);
 }
 
 /**
@@ -76,12 +76,12 @@ elgg.tgsembed.initDragDropInput = function() {
 		dropZone: $('.tgsembed-image-dropzone'),
         url: elgg.get_site_url() + 'action/tgsembed/upload?type=drop',
 		drop: function (e, data) {
-			$(e.originalEvent.target).removeClass('tgsembed-image-dropzone-drag');
-			$(e.originalEvent.target).removeClass('tgsembed-image-dropzone-background');
-			$(e.originalEvent.target).addClass('elgg-ajax-loader');
+			$(e.delegatedEvent.target).removeClass('tgsembed-image-dropzone-drag');
+			$(e.delegatedEvent.target).removeClass('tgsembed-image-dropzone-background');
+			$(e.delegatedEvent.target).addClass('elgg-ajax-loader');
 		},
 		dragover: function (e, data) {
-			$(e.originalEvent.target).addClass('tgsembed-image-dropzone-drag');
+			$(e.delegatedEvent.target).addClass('tgsembed-image-dropzone-drag');
 		},
         done: function (e, data) {
 			if (data.result.output.system_messages) {
@@ -205,6 +205,7 @@ elgg.tgsembed.spotContentClick = function(event) {
 			success: function(data) {
 				if (data.status != -1) {
 					// Insert link to content
+					console.log(data);
 					elgg.tgsembed.insertLink(data.output.entity_title, data.output.entity_url);
 				} else {
 					// Error
@@ -371,7 +372,7 @@ elgg.tgsembed.spotContentSubtypeChange = function(event) {
 }
 
 // Require fileupload 
-require(['jquery.iframe-transport', 'jquery.fileupload'], function() {
+require(['jquery.iframe-transport', 'jquery.fileupload', 'jquery.form'], function() {
 	// Register hooks
 	elgg.register_hook_handler('init', 'system', elgg.tgsembed.init);
 	elgg.register_hook_handler('photoLightboxAfterShow', 'tidypics', elgg.tgsembed.initLightbox);

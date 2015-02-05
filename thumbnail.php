@@ -6,7 +6,7 @@
  * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
- * @copyright THINK Global School 2010
+ * @copyright THINK Global School 2010 - 2015
  * @link http://www.thinkglobalschool.com/
  * 
  */
@@ -19,10 +19,9 @@ $file_guid = (int) get_input('file_guid', 0);
 // Get file thumbnail size
 $size = get_input('size', 'small');
 
-
 $ia = elgg_get_ignore_access();
 elgg_set_ignore_access();
-$file = new ElggFile($file_guid);
+$file = get_entity($file_guid);
 
 if (!$file || $file->getSubtype() != "embedimage") {
 	exit;

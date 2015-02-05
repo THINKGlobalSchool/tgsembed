@@ -5,7 +5,7 @@
  * @package TGSEmbed
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
  * @author Jeff Tilson
- * @copyright THINK Global School 2010
+ * @copyright THINK Global School 2010 - 2015
  * @link http://www.thinkglobalschool.com/
  * 
  */
@@ -32,7 +32,7 @@ elgg_register_menu_item('tgsembed-popup-menu', array(
 	'href' => '#tgsembed-module-image',
 	'priority' => 0,
 	'item_class' => 'elgg-state-selected',
-	'class' => 'tgsembed-menu-item',
+	'link_class' => 'tgsembed-menu-item',
 ));
 
 elgg_register_menu_item('tgsembed-popup-menu', array(
@@ -40,7 +40,7 @@ elgg_register_menu_item('tgsembed-popup-menu', array(
 	'text' => elgg_echo('tgsembed:label:embedspotcontent'),
 	'href' => '#tgsembed-module-spot',
 	'priority' => 1,
-	'class' => 'tgsembed-menu-item',
+	'link_class' => 'tgsembed-menu-item',
 ));
 
 elgg_register_menu_item('tgsembed-popup-menu', array(
@@ -48,7 +48,7 @@ elgg_register_menu_item('tgsembed-popup-menu', array(
 	'text' => elgg_echo('tgsembed:label:embedcode'),
 	'href' => '#tgsembed-module-generic',
 	'priority' => 2,
-	'class' => 'tgsembed-menu-item',
+	'link_class' => 'tgsembed-menu-item',
 ));
 
 $menu = elgg_view_menu('tgsembed-popup-menu', array(
