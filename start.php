@@ -160,7 +160,7 @@ function ecml_generic_page_handler($page) {
 	}
 
 	// @todo pull this out into a function.  allow optional arguments.
-	$ecml = "[$service " . sprintf('embed="%s"', $resource) . ']';
+	$ecml = "[$service " . sprintf('embed=%s', $resource) . ']';
 	$result = array(
 		'status' => 'success',
 		'ecml' => $ecml
@@ -348,7 +348,7 @@ function simplekaltura_setup_simpleicon_entity_menu($hook, $type, $return, $para
 				'text' => elgg_echo('tgsembed:label:embedvideo'),
 				'title' => 'embed_video',
 				'href' => "#{$entity->guid}",
-				'class' => 'tgsembed-embed-video-initial elgg-button elgg-button-action',
+				'link_class' => 'tgsembed-embed-video-initial elgg-button elgg-button-action',
 				'section' => 'info',
 				'priority' => 1,
 			);
