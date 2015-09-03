@@ -108,11 +108,10 @@ elgg.tgsembed.initDragDropInput = function() {
  */
 elgg.tgsembed.insert = function(content) {
 	var textAreaId = elgg.tgsembed.textAreaId;
-	$('#' + textAreaId).val($('#' + textAreaId).val() + ' ' + content + ' ');
 
-	<?php echo elgg_view('embed/custom_insert_js'); ?>
+	CKEDITOR.instances[textAreaId].insertHtml(content);
 
-	$.colorbox.close()
+	elgg.ui.lightbox.close();
 }
 
 /**
