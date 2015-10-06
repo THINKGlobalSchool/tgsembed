@@ -370,6 +370,49 @@ elgg.tgsembed.spotContentSubtypeChange = function(event) {
 	event.preventDefault();
 }
 
+elgg.tgsembed.addEmbedButton = function(hook, type, params, value) {
+	if (params.length) {
+		params.each(function(idx) {
+			var editor = $(this).ckeditorGet();
+
+			editor.addCommand("insertContent", { // create named command
+			    exec: function(edt) {
+			       
+			    	// Open the colorbox
+			    	$.colorbox({
+			    		'href': elgg.get_site_url() + 'tgsembed',
+						'onComplete' : function() {
+							elgg.tgsembed.initDragDropInput();
+							$(this).colorbox.resize();
+						},
+						'onOpen' : function() {
+							$(this).removeClass('cboxElement');
+							elgg.tgsembed.textAreaId = editor.name;
+						},
+						'onClosed' : function() {
+							$(this).addClass('cboxElement');
+						},
+						'className': 'tgsembed-colorbox'
+					});	
+
+
+			    }
+			});
+
+			editor.ui.addButton('SuperButton', { // add new button and bind our command
+			    label: elgg.echo("tgsembed:label:insertcontent"),
+			    command: 'insertContent',
+			    toolbar: 'insert',
+			    icon: elgg.get_site_url() + 'mod/tgsembed/_graphics/embed.png'
+			});
+
+		});
+	}
+}
+
+elgg.register_hook_handler('init', 'ckeditor', elgg.tgsembed.addEmbedButton);
+
+
 // Require fileupload 
 require(['jquery.iframe-transport', 'jquery.fileupload', 'jquery.form'], function() {
 	// Register hooks

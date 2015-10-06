@@ -204,13 +204,13 @@ function tgsembed_longtext_menu($hook, $type, $items, $vars) {
 		return $items;
 	}
 
-	$items[] = ElggMenuItem::factory(array(
-		'name' => 'tgsembed',
-		'href' => "tgsembed",
-		'text' => elgg_echo('tgsembed:label:insertcontent'),
-		'link_class' => "elgg-longtext-control tgsembed-control tgsembed-control-{$vars['id']}",
-		'priority' => 10,
-	));
+	// $items[] = ElggMenuItem::factory(array(
+	// 	'name' => 'tgsembed',
+	// 	'href' => "tgsembed",
+	// 	'text' => elgg_echo('tgsembed:label:insertcontent'),
+	// 	'link_class' => "elgg-longtext-control tgsembed-control tgsembed-control-{$vars['id']}",
+	// 	'priority' => 10,
+	// ));
 
 	elgg_load_js('elgg.tgsembed');
 
