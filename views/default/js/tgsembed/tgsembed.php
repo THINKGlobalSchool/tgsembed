@@ -374,6 +374,8 @@ elgg.tgsembed.spotContentSubtypeChange = function(event) {
 	event.preventDefault();
 }
 
+elgg.register_hook_handler('geTabEditLoaded', 'loaded', elgg.tgsembed.initLightbox);
+
 // Require fileupload 
 require(['jquery.iframe-transport', 'jquery.fileupload', 'jquery.form'], function() {
 	// Register hooks

@@ -25,6 +25,8 @@ function tgsembed_init() {
 	$e_js = elgg_get_simplecache_url('js', 'tgsembed/tgsembed');
 	elgg_register_js('elgg.tgsembed', $e_js);
 
+	elgg_load_js('elgg.tgsembed');
+
 	// Load podcast JS/CSS if available
 	if (elgg_is_active_plugin('podcasts')) {
 		// Load JS
@@ -211,8 +213,6 @@ function tgsembed_longtext_menu($hook, $type, $items, $vars) {
 		'link_class' => "elgg-longtext-control tgsembed-control tgsembed-control-{$vars['id']}",
 		'priority' => 10,
 	));
-
-	elgg_load_js('elgg.tgsembed');
 
 	return $items;
 }
