@@ -13,6 +13,10 @@
 //<script>
 elgg.provide('elgg.tgsembed');
 
+$(document).on('click', '.tgsembed-control', function(event) {
+	event.preventDefault();
+});
+
 // Init function
 elgg.tgsembed.init = function() {	
 	elgg.tgsembed.initLightbox();
