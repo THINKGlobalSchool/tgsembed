@@ -399,10 +399,10 @@ elgg.tgsembed.addEmbedButton = function(hook, type, params, value) {
 			    }
 			});
 
-			editor.ui.addButton('SuperButton', { // add new button and bind our command
+			editor.ui.addButton('InsertContentButton', { // add new button and bind our command
 			    label: elgg.echo("tgsembed:label:insertcontent"),
 			    command: 'insertContent',
-			    toolbar: 'insert',
+			    toolbar: 'custom1',
 			    icon: elgg.get_site_url() + 'mod/tgsembed/_graphics/embed.png'
 			});
 

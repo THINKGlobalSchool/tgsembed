@@ -139,3 +139,8 @@
 	background-position: -50px -27px;
     border: 0 none;
 }
+
+/* CKeditor toolbar */
+.cke_button_label.cke_button__insertcontentbutton_label {
+	display: inline;
+}

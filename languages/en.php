@@ -25,7 +25,7 @@ return array(
 	'tgsembed:label:embedimage' => 'Image',
 	'tgsembed:label:embedspotcontent' => 'Spot Content',
 	'tgsembed:label:embedcode' => 'Embed Code',
-	'tgsembed:label:insertcontent' => 'Insert Content',
+	'tgsembed:label:insertcontent' => 'Embed',
 	'tgsembed:label:instructions' => 'Copy and paste the embed code into the box below',
 	'tgsembed:label:insertlink' => 'Insert Link',
 	'tgsembed:label:embedphoto' => 'Embed Photo',
