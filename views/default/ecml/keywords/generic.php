@@ -15,7 +15,7 @@ if (elgg_get_context() != 'search') {
 	header('X-XSS-Protection: 0');
 
 	// Workaround for HTTP embeds on HTTPS enabled site
-	$decoded = urldecode($vars['embed']);
+	$decoded = rawurldecode($vars['embed']);
 
 	$search = array(
 		"http://prezi.com",
