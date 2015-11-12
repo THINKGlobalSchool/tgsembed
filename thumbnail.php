@@ -27,6 +27,8 @@ if (!$file || $file->getSubtype() != "embedimage") {
 	exit;
 }
 
+$filename = $file->title;
+
 $simpletype = $file->simpletype;
 if ($simpletype == "image") {
 
@@ -63,6 +65,7 @@ if ($simpletype == "image") {
 
 		// caching images for 10 days
 		header("Content-type: $mime");
+		header("Content-Disposition: inline; filename=\"$filename\"");
 		header('Expires: ' . date('r',time() + 864000));
 		header("Pragma: public", true);
 		header("Cache-Control: public", true);
